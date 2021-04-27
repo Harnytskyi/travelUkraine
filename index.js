@@ -1,5 +1,6 @@
 // Start from here
-let regions = {
+
+const regions = {
   Ternopil: [
     {
       xid: 'Q1366078',
@@ -20,7 +21,7 @@ let regions = {
       point: { lon: 25.594805, lat: 49.551529 },
     },
   ],
-  Zaporizhia: [
+  Zaporizhzhia: [
     {
       xid: 'Q4109008',
       name: 'Verkhnya Khortytsia',
@@ -41,7 +42,7 @@ let regions = {
     },
   ],
 };
-let places = {
+const places = {
   Q1366078: {
     xid: 'Q1366078',
     name: 'Ukrainian Catholic Archeparchy of Ternopil–Zboriv',
@@ -186,20 +187,39 @@ let places = {
     point: { lon: 35.081028, lat: 47.862499 },
   },
 };
-let regionPlaces = [];
-let selectedPlaces;
+window.dataStore = {
+  regionPlaces: [],
+  selectedPlaces: [],
+  placeToShow: '',
+  searchRequest: '',
+};
 
-window.regionPlaces = regionPlaces;
-window.selectedPlaces = selectedPlaces;
 window.selectRegion = selectRegion;
-window.regions = regions;
-// window.showPlaces = showPlaces;
-window.showPlaceInfo = showPlaceInfo;
-window.selectPlace = selectPlace;
+window.selectPlaceToShow = selectPlaceToShow;
+window.selectPlaces = selectPlaces;
+window.renderApp = renderApp;
 
-let main = document.getElementById('app-root');
+renderApp();
 
-main.innerHTML = ShowRegions();
+function renderApp() {
+  document.getElementById('app-root').innerHTML = `
+    ${App()}
+    `;
+  const searchInput = document.getElementById('search');
+  if (searchInput) {
+    searchInput.focus();
+    searchInput.selectionStart = searchInput.value.length;
+  }
+}
+
+function App() {
+  if (window.dataStore.regionPlaces.length == 0) return `<div>${ShowRegions()}</div>`;
+  else {
+    return `<div>${showSearchInput()}</div> 
+    <div>${showPlaces()}</div>
+    <div>${showPlaceInfo()}</div>`;
+  }
+}
 
 function ShowRegions() {
   let listOfRegion = [];
@@ -208,52 +228,56 @@ function ShowRegions() {
             ${item}
         </button></li>`);
   }
-
   return listOfRegion.join('');
 }
 
 function selectRegion(region) {
   for (place in regions[region]) {
-    window.regionPlaces.push({
+    window.dataStore.regionPlaces.push({
       xid: regions[region][place].xid,
       name: regions[region][place].name,
       rate: regions[region][place].rate,
     });
   }
-  window.selectedPlaces = [...regionPlaces];
-  showRegionPage();
+  window.dataStore.selectedPlaces = [...window.dataStore.regionPlaces];
+  renderApp();
 }
 
-function showRegionPage() {
-  main.innerHTML = `<input id="search" onkeyup="selectPlace()" onsearch="selectPlace()" type="search">
-    <div id="placesList" class="placesList"></div><div id="placeInfo"></div>`;
-  showPlaces();
+function showSearchInput() {
+  return `<input id="search" value="${window.dataStore.searchRequest}" onsearch="selectPlaces(value)" onkeyup="selectPlaces(value)" type="search">`;
 }
 function showPlaces() {
   let listOfPlace = [];
-  for (item in window.selectedPlaces) {
-    listOfPlace.push(`<li><button value="${window.selectedPlaces[item].xid}" onclick="showPlaceInfo(value)" >
-           ${window.selectedPlaces[item].name}
+  for (item in window.dataStore.selectedPlaces) {
+    listOfPlace.push(`<li><button value="${window.dataStore.selectedPlaces[item].xid}" onclick="selectPlaceToShow(value)" >
+           ${window.dataStore.selectedPlaces[item].name}
         </button></li>`);
   }
-  document.getElementById('placesList').innerHTML = `<div> ${listOfPlace.join('')} </div>`;
+  return listOfPlace.join('');
 }
 
-function showPlaceInfo(place) {
-  document.getElementById(
-    'placeInfo',
-  ).innerHTML = `<img src="${places[place].preview.source}" alt=""><strong>${places[place].name}</strong><p>${places[place].wikipedia_extracts.text}</p>
-    <div>GPS: ${places[place].point.lat}, ${places[place].point.lon}</div>`;
+function showPlaceInfo() {
+  if (window.dataStore.placeToShow == '') return `choose place you like`;
+  else {
+    const place = places[window.dataStore.placeToShow];
+    return `<img src="${place.preview.source}" alt=""><strong>${place.name}</strong><p>${place.wikipedia_extracts.text}</p>
+      <div>GPS: ${place.point.lat}, ${place.point.lon}</div><a href="${place.wikipedia}">See more at Wikipedia</a>`;
+  }
 }
-function selectPlace() {
-  window.selectedPlaces = [...window.regionPlaces];
+function selectPlaces(value) {
+  window.dataStore.searchRequest = value;
+  window.selectedPlaces = [...window.dataStore.regionPlaces];
   findPlaces();
-  showPlaces();
+  renderApp();
 }
 function findPlaces() {
-  let searchRequest = document.getElementById('search').value.toUpperCase();
+  const searchRequest = window.dataStore.searchRequest.toUpperCase();
   searchedPlaces = window.selectedPlaces.filter(item =>
     item.name.toUpperCase().includes(searchRequest),
   );
-  window.selectedPlaces = searchedPlaces;
+  window.dataStore.selectedPlaces = searchedPlaces;
+}
+function selectPlaceToShow(place) {
+  window.dataStore.placeToShow = place;
+  renderApp();
 }
