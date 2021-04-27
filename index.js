@@ -187,17 +187,29 @@ const places = {
     point: { lon: 35.081028, lat: 47.862499 },
   },
 };
+const kinds = [
+  'architecture',
+  'cultural',
+  'historic',
+  'industrial_facilities',
+  'natural',
+  'other',
+  'religion',
+];
+
 window.dataStore = {
   regionPlaces: [],
   selectedPlaces: [],
   placeToShow: '',
   searchRequest: '',
+  availableKinds: [],
 };
 
 window.selectRegion = selectRegion;
 window.selectPlaceToShow = selectPlaceToShow;
 window.selectPlaces = selectPlaces;
 window.renderApp = renderApp;
+window.changeStatus = changeStatus;
 
 renderApp();
 
@@ -216,6 +228,7 @@ function App() {
   if (window.dataStore.regionPlaces.length == 0) return `<div>${ShowRegions()}</div>`;
   else {
     return `<div>${showSearchInput()}</div> 
+    <div>${showAvailableKinds()}</div>
     <div>${showPlaces()}</div>
     <div>${showPlaceInfo()}</div>`;
   }
@@ -237,8 +250,10 @@ function selectRegion(region) {
       xid: regions[region][place].xid,
       name: regions[region][place].name,
       rate: regions[region][place].rate,
+      kinds: regions[region][place].kinds.split(','),
     });
   }
+  selectAvailableKinds();
   window.dataStore.selectedPlaces = [...window.dataStore.regionPlaces];
   renderApp();
 }
@@ -264,15 +279,35 @@ function showPlaceInfo() {
       <div>GPS: ${place.point.lat}, ${place.point.lon}</div><a href="${place.wikipedia}">See more at Wikipedia</a>`;
   }
 }
+
+function selectAvailableKinds() {
+  for (item in window.dataStore.regionPlaces) {
+    let availableKinds = [];
+    let kindsOfObject = window.dataStore.regionPlaces[item].kinds;
+    availableKinds = availableKinds.concat(
+      kindsOfObject.filter(
+        item =>
+          kinds.some(kind => kind === item) &&
+          window.dataStore.availableKinds.every(kind => kind != item),
+      ),
+    );
+    for (kind in availableKinds) {
+      window.dataStore.availableKinds[availableKinds[kind]] = true;
+    }
+  }
+}
+
 function selectPlaces(value) {
-  window.dataStore.searchRequest = value;
-  window.selectedPlaces = [...window.dataStore.regionPlaces];
-  findPlaces();
+  filterByKinds();
+  if (value != undefined) {
+    window.dataStore.searchRequest = value;
+    findPlaces();
+  }
   renderApp();
 }
 function findPlaces() {
-  const searchRequest = window.dataStore.searchRequest.toUpperCase();
-  searchedPlaces = window.selectedPlaces.filter(item =>
+  let searchRequest = window.dataStore.searchRequest.toUpperCase();
+  searchedPlaces = window.dataStore.selectedPlaces.filter(item =>
     item.name.toUpperCase().includes(searchRequest),
   );
   window.dataStore.selectedPlaces = searchedPlaces;
@@ -280,4 +315,29 @@ function findPlaces() {
 function selectPlaceToShow(place) {
   window.dataStore.placeToShow = place;
   renderApp();
+}
+function showAvailableKinds() {
+  let kindsCheckboxes = Object.keys(window.dataStore.availableKinds).map(
+    item =>
+      `<label><input type="checkbox" value="${item}" onchange="changeStatus(value)" ${checkstatus(
+        item,
+      )}>${item}</label>`,
+  );
+  return kindsCheckboxes.join('');
+}
+function checkstatus(value) {
+  if (window.dataStore.availableKinds[value] == true) return `checked`;
+}
+function filterByKinds() {
+  let selectedKinds = [];
+  for (item in window.dataStore.availableKinds) {
+    if (window.dataStore.availableKinds[item] == true) selectedKinds.push(item);
+  }
+  window.dataStore.selectedPlaces = window.dataStore.regionPlaces.filter(item =>
+    item.kinds.some(value => selectedKinds.some(aaa => value === aaa)),
+  );
+}
+function changeStatus(value) {
+  window.dataStore.availableKinds[value] = !window.dataStore.availableKinds[value];
+  selectPlaces();
 }
