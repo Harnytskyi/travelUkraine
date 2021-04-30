@@ -75,7 +75,7 @@ function ShowRegions() {
   return `<object
     id="mapOfUkraine"
     type="image/svg+xml"
-    data="./src/map-ukraine.svg">
+    data="https://nelina.studio/img/works/graphdesign/ua/ua.svg">
   </object>`;
 }
 
