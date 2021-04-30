@@ -1,6 +1,7 @@
 // Start from here
 
 import { regions, getOpenTripMapUrl, getOpenTripMarPlaceUrl } from './utils';
+import mapOfUkraine from './src/map-ukraine.svg';
 
 const kinds = [
   'architecture',
@@ -71,12 +72,7 @@ function ShowRegions() {
             ${regions[item]}
         </button></li>`);
   }
-  //return listOfRegion.join('');
-  return `<object
-    id="mapOfUkraine"
-    type="image/svg+xml"
-    data="https://nelina.studio/img/works/graphdesign/ua/ua.svg">
-  </object>`;
+  return `<object id="mapOfUkraine" type="image/svg+xml" data="${mapOfUkraine}" src="${mapOfUkraine}"></object>`;
 }
 
 function selectRegion(region) {
