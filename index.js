@@ -41,9 +41,7 @@ function renderApp() {
   if (searchInput) {
     searchInput.focus();
     searchInput.selectionStart = searchInput.value.length;
-  }
-  //else
-  //window.addEventListener("load", findSVGElements, false)
+  } else window.addEventListener('load', findSVGElements, false);
 }
 
 function findSVGElements() {
@@ -73,12 +71,12 @@ function ShowRegions() {
             ${regions[item]}
         </button></li>`);
   }
-  return listOfRegion.join('');
-  //   return `<object
-  //   id="mapOfUkraine"
-  //   type="image/svg+xml"
-  //   data="./src/map-ukraine.svg">
-  // </object>`
+  //return listOfRegion.join('');
+  return `<object
+    id="mapOfUkraine"
+    type="image/svg+xml"
+    data="./src/map-ukraine.svg">
+  </object>`;
 }
 
 function selectRegion(region) {
