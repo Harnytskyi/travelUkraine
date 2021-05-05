@@ -56,22 +56,26 @@ function findSVGElements() {
   }
 }
 function App() {
-  if (window.dataStore.regionPlaces.length == 0) return `<div>${ShowRegions()}</div>`;
+  let content;
+  if (window.dataStore.error !== null) content = `${window.dataStore.error}`;
+  else if (window.dataStore.regionPlaces.length == 0) content = `<div>${ShowRegions()}</div>`;
   else {
-    return `<div>${showSearchInput()}</div> 
+    content = `
+    <div>${showSearchInput()}</div> 
     <div>${showAvailableKinds()}</div>
     <div>${showPlaces()}</div>
     <div>${showPlaceInfo()}</div>`;
   }
+  return content;
 }
 
 function ShowRegions() {
-  let listOfRegion = [];
-  for (let item in regions) {
-    listOfRegion.push(`<li><button value="${regions[item]}" onclick="selectRegion(value)" >
-            ${regions[item]}
-        </button></li>`);
-  }
+  // let listOfRegion = [];
+  // for (let item in regions) {
+  //   listOfRegion.push(`<li><button value="${regions[item]}" onclick="selectRegion(value)" >
+  //           ${regions[item]}
+  //       </button></li>`);
+  // }
   return `<object id="mapOfUkraine" type="image/svg+xml" data="${mapOfUkraine}" src="${mapOfUkraine}"></object>`;
 }
 
@@ -80,26 +84,26 @@ function selectRegion(region) {
   window.dataStore.isDataLoading = true;
   window
     .loadRegionPlaces(region)
-    .then((data, error) => {
+    .then(data => {
       window.dataStore.isDataLoading = false;
-      if (error) {
-        window.dataStore.error = error;
-      } else if (data) {
-        data = data.data;
-        for (let place in data) {
-          window.dataStore.regionPlaces.push({
-            xid: data[place].xid,
-            name: data[place].name,
-            rate: data[place].rate,
-            kinds: data[place].kinds.split(','),
-          });
-        }
-        selectAvailableKinds();
-        window.dataStore.selectedPlaces = [...window.dataStore.regionPlaces];
+      // if (error) {
+      //   window.dataStore.error = error;
+      //} else if (data) {
+      //data = data.data;
+      for (let place in data) {
+        window.dataStore.regionPlaces.push({
+          xid: data[place].xid,
+          name: data[place].name,
+          rate: data[place].rate,
+          kinds: data[place].kinds.split(','),
+        });
       }
+      selectAvailableKinds();
+      window.dataStore.selectedPlaces = [...window.dataStore.regionPlaces];
+      //}
     })
-    .catch(() => {
-      window.dataStore.error = 'some error occurred';
+    .catch(error => {
+      window.dataStore.error = 'some error occurred ' + error;
     })
     .finally(window.renderApp);
 }
@@ -107,7 +111,7 @@ function loadRegionPlaces(region) {
   const url = getOpenTripMapUrl(region);
   return fetch(url)
     .then(response => response.json())
-    .then(data => ({ data }));
+    .then(data => data);
 }
 function showSearchInput() {
   return `<input id="search" value="${window.dataStore.searchRequest}" onsearch="window.dataStore.searchRequest = value; selectPlaces()" onkeyup="window.dataStore.searchRequest = value; selectPlaces()" type="search">`;
@@ -134,7 +138,7 @@ function loadPlaceInfo(place) {
   const url = getOpenTripMarPlaceUrl(place);
   return fetch(url)
     .then(response => response.json())
-    .then(data => ({ data }));
+    .then(data => data);
 }
 
 function selectAvailableKinds() {
@@ -168,12 +172,12 @@ function selectPlaceToShow(place) {
   window.dataStore.error = null;
   window.dataStore.isDataLoading = true;
   loadPlaceInfo(place)
-    .then((data, error) => {
-      window.dataStore.isDataLoading = false;
-      if (error) window.dataStore.error = error;
-      else if (data) {
-        window.dataStore.placeToShow = data.data;
-      }
+    .then(data => {
+      //window.dataStore.isDataLoading = false;
+      //if (error) window.dataStore.error = error;
+      //else if (data) {
+      window.dataStore.placeToShow = data;
+      //}
     })
     .catch(() => {
       window.dataStore.error = 'some error occurred';
