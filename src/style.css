@@ -1,0 +1,129 @@
+.app_root {
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  font-family: 'Roboto', sans-serif;
+  min-height: 100vh;
+}
+
+body {
+  margin: 0;
+  background-color: #f9fafc;
+}
+.map_of_ukraine {
+  align-self: center;
+  max-width: 800px;
+  width: 100%;
+}
+.container {
+  display: grid;
+  margin-top: 40px;
+  grid-template-columns: 1fr 2fr;
+  box-shadow: 0px 1px 10px rgb(29 34 47 / 10%);
+  max-width: 1200px;
+  width: 100%;
+  background-color: white;
+}
+.obj_map_of_ukraine {
+  width: inherit;
+}
+.list_block {
+  padding: 20px;
+}
+.search_input {
+  font-family: 'Roboto', sans-serif;
+  width: 100%;
+  margin-top: 14px;
+  height: 36px;
+  border: solid 1px #d9d9d9;
+  border-radius: 3px;
+  padding-left: 19px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #2c3145;
+}
+.search_input:focus {
+  border: solid 1px #14bdee;
+  outline: none;
+}
+.ul_list {
+  list-style: none;
+  padding: 0;
+}
+.ul_list li {
+  border-bottom: 1px solid #e5e5e5;
+}
+.button_place {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: start;
+  border: none;
+  background: transparent;
+  color: #384158;
+  padding: 8px 6px;
+  line-height: 1.5em;
+}
+.link {
+  -webkit-transition: all 200ms ease;
+  -moz-transition: all 200ms ease;
+  -ms-transition: all 200ms ease;
+  -o-transition: all 200ms ease;
+  transition: all 200ms ease;
+}
+.link:hover {
+  color: #14bdee;
+}
+h1,
+h2,
+.title_place_info {
+  font-family: 'Roboto Slab', serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #384158;
+}
+.info_message,
+.error_message {
+  position: relative;
+  top: 20vh;
+  text-align: center;
+}
+.title_start {
+  text-align: center;
+  font-size: 60px;
+}
+.title_start span {
+  color: #14bdee;
+}
+.meta_place_info {
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 14px;
+  color: #b5b8be;
+}
+.url_place_info {
+  color: #b5b8be;
+  text-decoration: none;
+}
+.image_block_place_info {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+  background-color: #1e2434;
+  background-image: url('./background_place_image.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.text_place_info {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.75;
+  color: #384158;
+  margin-top: 29px;
+  margin-bottom: 0;
+}
+.place_info {
+  margin: 20px;
+}

@@ -160,7 +160,7 @@ export const regions = Object.keys(regionsCoordinates);
 
 export function getOpenTripMapUrl(regionName) {
   const { lon_min, lon_max, lat_min, lat_max } = regionsCoordinates[regionName];
-  return `https://api.opentripmap.com/0.1/en/places/bbox?lon_min=${lon_min}&lon_max=${lon_max}&lat_min=${lat_min}&lat_max=${lat_max}&src_attr=wikidata&format=json&limit=30&apikey=${process.env.OPEN_TRIP_MAP_API_KEY}`;
+  return `https://api.opentripmap.com/0.1/en/places/bbox?lon_min=${lon_min}&lon_max=${lon_max}&lat_min=${lat_min}&lat_max=${lat_max}&src_attr=wikidata&format=json&limit=100&apikey=${process.env.OPEN_TRIP_MAP_API_KEY}`;
 }
 export function getOpenTripMarPlaceUrl(placexid) {
   return `https://api.opentripmap.com/0.1/en/places/xid/${placexid}?apikey=${process.env.OPEN_TRIP_MAP_API_KEY}`;

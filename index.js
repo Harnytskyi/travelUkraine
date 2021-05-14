@@ -2,6 +2,7 @@
 
 import { regions, getOpenTripMapUrl, getOpenTripMarPlaceUrl } from './utils';
 import mapOfUkraine from './src/map-ukraine.svg';
+import styles from './src/style.css';
 
 const kinds = [
   'architecture',
@@ -21,7 +22,7 @@ window.dataStore = {
   availableKinds: [],
   isDataLoading: false,
   error: null,
-  placesCash: {},
+  placesInfo: {},
 };
 
 window.regions = regions;
@@ -35,9 +36,11 @@ window.loadRegionPlaces = loadRegionPlaces;
 renderApp();
 
 function renderApp() {
-  document.getElementById('app-root').innerHTML = `
+  const appRoot = document.getElementById('app-root');
+  appRoot.innerHTML = `
     ${App()}
     `;
+  appRoot.classList.add(`${styles.app_root}`);
   const searchInput = document.getElementById('search');
   if (searchInput) {
     searchInput.focus();
@@ -48,23 +51,35 @@ function renderApp() {
 function findSVGElements() {
   var svg = document.getElementById('mapOfUkraine').contentDocument;
   var svgPolyline = svg.querySelectorAll('polyline');
+  var svgPath = svg.querySelector('path');
   for (let i = 0; i < svgPolyline.length; i++) {
-    svg.getElementById(svgPolyline[i].id).setAttribute('value', `${regions[i]}`);
-    svg.getElementById(svgPolyline[i].id).addEventListener('click', e => {
-      window.selectRegion(regions[i]);
+    const region = svg.getElementById(svgPolyline[i].id);
+    region.setAttribute('value', `${regions[i]}`);
+    region.addEventListener('click', e => {
+      window.selectRegion(`${regions[i]}`);
     });
   }
+  const kyiv = svg.getElementById(svgPath.id);
+  kyiv.setAttribute('value', `${regions[25]}`);
+  kyiv.addEventListener('click', e => {
+    window.selectRegion(regions[25]);
+  });
 }
 function App() {
   let content;
   if (window.dataStore.error !== null) content = `${window.dataStore.error}`;
-  else if (window.dataStore.regionPlaces.length == 0) content = `<div>${ShowRegions()}</div>`;
+  else if (window.dataStore.regionPlaces.length == 0)
+    content = `<div class="${styles.map_of_ukraine}">${ShowRegions()}</div>`;
   else {
     content = `
-    <div>${showSearchInput()}</div> 
-    <div>${showAvailableKinds()}</div>
-    <div>${showPlaces()}</div>
-    <div>${showPlaceInfo()}</div>`;
+    <div class="${styles.container}">
+      <div class="${styles.list_block}">
+        <div>${showSearchInput()}</div> 
+        <div>${showAvailableKinds()}</div>
+        <div>${showPlaces()}</div>
+      </div>
+      <div class="${styles.place_info}" >${showPlaceInfo()}</div>
+    </div>`;
   }
   return content;
 }
@@ -76,7 +91,7 @@ function ShowRegions() {
   //           ${regions[item]}
   //       </button></li>`);
   // }
-  return `<object id="mapOfUkraine" type="image/svg+xml" data="${mapOfUkraine}" src="${mapOfUkraine}"></object>`;
+  return `<h1 class="${styles.title_start}">Подорожуй<span>Україною</span></h1><object id="mapOfUkraine" class="${styles.obj_map_of_ukraine}" type="image/svg+xml" data="${mapOfUkraine}" src="${mapOfUkraine}"></object>`;
 }
 
 function selectRegion(region) {
@@ -91,12 +106,15 @@ function selectRegion(region) {
       //} else if (data) {
       //data = data.data;
       for (let place in data) {
-        window.dataStore.regionPlaces.push({
-          xid: data[place].xid,
-          name: data[place].name,
-          rate: data[place].rate,
-          kinds: data[place].kinds.split(','),
-        });
+        const charCode = data[place].name.charCodeAt(0);
+        if (charCode > 1030 && charCode < 1112) {
+          window.dataStore.regionPlaces.push({
+            xid: data[place].xid,
+            name: data[place].name,
+            rate: data[place].rate,
+            kinds: data[place].kinds.split(','),
+          });
+        }
       }
       selectAvailableKinds();
       window.dataStore.selectedPlaces = [...window.dataStore.regionPlaces];
@@ -114,31 +132,40 @@ function loadRegionPlaces(region) {
     .then(data => data);
 }
 function showSearchInput() {
-  return `<input id="search" value="${window.dataStore.searchRequest}" onsearch="window.dataStore.searchRequest = value; selectPlaces()" onkeyup="window.dataStore.searchRequest = value; selectPlaces()" type="search">`;
+  return `<input id="search" class="${styles.search_input}" value="${window.dataStore.searchRequest}" onsearch="window.dataStore.searchRequest = value; selectPlaces()" onkeyup="window.dataStore.searchRequest = value; selectPlaces()" type="search">`;
 }
 function showPlaces() {
   let listOfPlace = [];
+  listOfPlace.push(`<ul class="${styles.ul_list}">`);
   for (let item in window.dataStore.selectedPlaces) {
-    listOfPlace.push(`<li><button value="${window.dataStore.selectedPlaces[item].xid}" onclick="selectPlaceToShow(value)" >
+    listOfPlace.push(`<li><button class="${styles.button_place} ${styles.link}" value="${window.dataStore.selectedPlaces[item].xid}" onclick="selectPlaceToShow(value)" >
            ${window.dataStore.selectedPlaces[item].name}
         </button></li>`);
   }
+  listOfPlace.push(`</ul>`);
   return listOfPlace.join('');
 }
 
 function showPlaceInfo() {
-  if (window.dataStore.placeToShow == '') return `choose place you like`;
+  if (window.dataStore.placeToShow == '')
+    return `<h2 class="${styles.info_message}">Обирай що цікавить</h2>`;
   else {
-    const place = window.dataStore.placeToShow;
-    return `<img src="${place.preview.source}" alt=""><strong>${place.name}</strong><p>${place.wikipedia_extracts.text}</p>
-      <div>GPS: ${place.point.lat}, ${place.point.lon}</div><a href="${place.wikipedia}">See more at Wikipedia</a>`;
+    const place = getPlaceInfo();
+    return `<div class="${styles.title_place_info}"><strong>${place.name}</strong></div>
+            <div class="${styles.meta_place_info}">GPS: ${place.point.lat}, ${place.point.lon} | <a class="${styles.url_place_info} ${styles.link}" href="${place.wikipedia}">Wikipedia</a></div>
+            <div class="${styles.image_block_place_info}"><img src="${place.preview.source}" alt=""></div>
+            <p class="${styles.text_place_info}">${place.wikipedia_extracts.text}</p>`;
   }
 }
-function loadPlaceInfo(place) {
-  const url = getOpenTripMarPlaceUrl(place);
-  return fetch(url)
-    .then(response => response.json())
-    .then(data => data);
+function loadPlaceInfo() {
+  const { placeToShow } = window.dataStore;
+  const url = getOpenTripMarPlaceUrl(placeToShow);
+  if (!Boolean(getPlaceInfo())) {
+    return fetch(url)
+      .then(response => response.json())
+      .then(data => data);
+  }
+  return Promise.resolve({});
 }
 
 function selectAvailableKinds() {
@@ -169,18 +196,19 @@ function findPlaces() {
   window.dataStore.selectedPlaces = searchedPlaces;
 }
 function selectPlaceToShow(place) {
+  window.dataStore.placeToShow = place;
   window.dataStore.error = null;
   window.dataStore.isDataLoading = true;
-  loadPlaceInfo(place)
+  loadPlaceInfo()
     .then(data => {
       //window.dataStore.isDataLoading = false;
       //if (error) window.dataStore.error = error;
       //else if (data) {
-      window.dataStore.placeToShow = data;
+      if (Object.keys(data).length !== 0) window.dataStore.placesInfo[place] = data;
       //}
     })
     .catch(() => {
-      window.dataStore.error = 'some error occurred';
+      window.dataStore.error = `<h2 class=${styles.error_message}>Cталася якась помилка</h2>`;
     })
     .finally(window.renderApp);
 }
@@ -208,4 +236,8 @@ function filterByKinds() {
 function changeStatus(value) {
   window.dataStore.availableKinds[value] = !window.dataStore.availableKinds[value];
   selectPlaces();
+}
+function getPlaceInfo() {
+  const { placeToShow, placesInfo } = window.dataStore;
+  return placesInfo[placeToShow];
 }
