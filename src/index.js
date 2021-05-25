@@ -1,29 +1,13 @@
 // Start from here
 
-import { regions, getOpenTripMapUrl, getOpenTripMarPlaceUrl } from './utils';
-import mapOfUkraine from './src/map-ukraine.svg';
-import styles from './src/style.css';
+import dataStore from './data/dataStore';
+import mapOfUkraine from './map-ukraine.svg';
+import styles from './style.css';
+import { regions } from './data/openTripMapAPI';
+import { loadRegionPlaces, loadPlaceInfo } from './data/regionData';
+import { kinds } from './utils';
 
-const kinds = [
-  'architecture',
-  'cultural',
-  'historic',
-  'industrial_facilities',
-  'natural',
-  'other',
-  'religion',
-];
-
-window.dataStore = {
-  regionPlaces: [],
-  selectedPlaces: [],
-  placeToShow: '',
-  searchRequest: '',
-  availableKinds: [],
-  isDataLoading: false,
-  error: null,
-  placesInfo: {},
-};
+window.dataStore = dataStore;
 
 window.regions = regions;
 window.selectRegion = selectRegion;
@@ -125,12 +109,7 @@ function selectRegion(region) {
     })
     .finally(window.renderApp);
 }
-function loadRegionPlaces(region) {
-  const url = getOpenTripMapUrl(region);
-  return fetch(url)
-    .then(response => response.json())
-    .then(data => data);
-}
+
 function showSearchInput() {
   return `<input id="search" class="${styles.search_input}" value="${window.dataStore.searchRequest}" onsearch="window.dataStore.searchRequest = value; selectPlaces()" onkeyup="window.dataStore.searchRequest = value; selectPlaces()" type="search">`;
 }
@@ -157,13 +136,15 @@ function showPlaceInfo() {
             <p class="${styles.text_place_info}">${place.wikipedia_extracts.text}</p>`;
   }
 }
-function loadPlaceInfo() {
+
+function checkPlaceInfo() {
   const { placeToShow } = window.dataStore;
-  const url = getOpenTripMarPlaceUrl(placeToShow);
+  //const url = getOpenTripMarPlaceUrl(placeToShow);
   if (!Boolean(getPlaceInfo())) {
-    return fetch(url)
-      .then(response => response.json())
-      .then(data => data);
+    return loadPlaceInfo(placeToShow);
+    // return fetch(url)
+    //   .then(response => response.json())
+    //   .then(data => data);
   }
   return Promise.resolve({});
 }
@@ -199,7 +180,7 @@ function selectPlaceToShow(place) {
   window.dataStore.placeToShow = place;
   window.dataStore.error = null;
   window.dataStore.isDataLoading = true;
-  loadPlaceInfo()
+  checkPlaceInfo()
     .then(data => {
       //window.dataStore.isDataLoading = false;
       //if (error) window.dataStore.error = error;
