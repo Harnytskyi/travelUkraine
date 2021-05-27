@@ -1,11 +1,15 @@
-import App from '../components/App';
+let Component, Target;
 
-export default function renderApp() {
-  const appRoot = document.getElementById('app-root');
-  appRoot.innerHTML = `
-      ${App()}
-      `;
-  appRoot.classList.add(`${styles.app_root}`);
+export default function renderApp(componentFunction, targetElementId) {
+  if (componentFunction) Component = componentFunction;
+  if (targetElementId) Target = targetElementId;
+  document.getElementById(Target).innerHTML = `${Component()}`;
+  document.getElementById(Target).classList.add(`${styles.app_root}`);
+  //const appRoot = document.getElementById('app-root');
+  // appRoot.innerHTML = `
+  //   ${App()}
+  //   `;
+  //appRoot.classList.add(`${styles.app_root}`);
   const searchInput = document.getElementById('search');
   if (searchInput) {
     searchInput.focus();

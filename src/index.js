@@ -9,6 +9,7 @@ import { regions } from './data/openTripMapAPI';
 import { selectRegion } from './data/selectRegion';
 import { selectPlaceToShow } from './data/selectPlaceToShow';
 import { selectPlaces, changeStatus } from './data/selectPlaces';
+import App from './components/App';
 
 window.dataStore = dataStore;
 window.styles = styles;
@@ -20,4 +21,4 @@ window.selectPlaces = selectPlaces;
 window.changeStatus = changeStatus;
 window.renderApp = renderApp;
 
-renderApp();
+renderApp(App, 'app-root');
