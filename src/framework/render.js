@@ -1,15 +1,14 @@
+/** @jsx createElement */
+/** @jsxFrag createFragment */
+import { createElement } from './element';
+
 let Component, Target;
 
-export default function renderApp(componentFunction, targetElementId) {
+export default function renderApp(componentFunction = null, target = null) {
   if (componentFunction) Component = componentFunction;
-  if (targetElementId) Target = targetElementId;
-  document.getElementById(Target).innerHTML = `${Component()}`;
-  document.getElementById(Target).classList.add(`${styles.app_root}`);
-  //const appRoot = document.getElementById('app-root');
-  // appRoot.innerHTML = `
-  //   ${App()}
-  //   `;
-  //appRoot.classList.add(`${styles.app_root}`);
+  if (target) Target = target;
+  Target.innerHTML = '';
+  Target.appendChild(<Component />);
   const searchInput = document.getElementById('search');
   if (searchInput) {
     searchInput.focus();

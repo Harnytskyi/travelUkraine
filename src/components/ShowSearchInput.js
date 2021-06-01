@@ -1,3 +1,21 @@
-export function showSearchInput() {
-  return `<input id="search" class="${styles.search_input}" value="${window.dataStore.searchRequest}" onsearch="window.dataStore.searchRequest = value; selectPlaces()" onkeyup="window.dataStore.searchRequest = value; selectPlaces()" type="search">`;
+/** @jsx createElement */
+/** @jsxFrag createFragment */
+import { createElement, createFragment } from '../framework/element';
+export function ShowSearchInput() {
+  return (
+    <input
+      id="search"
+      class={styles.search_input}
+      value={window.dataStore.searchRequest}
+      onsearch={e => {
+        window.dataStore.searchRequest = e.target.value;
+        selectPlaces();
+      }}
+      onkeyup={e => {
+        window.dataStore.searchRequest = e.target.value;
+        selectPlaces();
+      }}
+      type="search"
+    />
+  );
 }

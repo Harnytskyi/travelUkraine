@@ -1,11 +1,23 @@
-export function showPlaces() {
-  let listOfPlace = [];
-  listOfPlace.push(`<ul class="${styles.ul_list}">`);
-  for (let item in window.dataStore.selectedPlaces) {
-    listOfPlace.push(`<li><button class="${styles.button_place} ${styles.link}" value="${window.dataStore.selectedPlaces[item].xid}" onclick="selectPlaceToShow(value)" >
-             ${window.dataStore.selectedPlaces[item].name}
-          </button></li>`);
-  }
-  listOfPlace.push(`</ul>`);
-  return listOfPlace.join('');
+/** @jsx createElement */
+/** @jsxFrag createFragment */
+import { createElement, createFragment } from '../framework/element';
+
+export function ShowPlaces() {
+  return (
+    <>
+      <ul class={styles.ul_list}>
+        {window.dataStore.selectedPlaces.map(item => (
+          <li>
+            <button
+              class={styles.button_place + ' ' + styles.link}
+              value={item.xid}
+              onclick={e => selectPlaceToShow(e.target.value)}
+            >
+              {item.name}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
 }
