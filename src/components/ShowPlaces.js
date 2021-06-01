@@ -1,6 +1,7 @@
 /** @jsx createElement */
 /** @jsxFrag createFragment */
 import { createElement, createFragment } from '../framework/element';
+import { selectPlaceToShow } from '../data/regionData';
 
 export function ShowPlaces() {
   return (

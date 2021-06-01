@@ -1,6 +1,8 @@
 /** @jsx createElement */
 /** @jsxFrag createFragment */
 import { createElement } from './element';
+import { selectRegion } from '../data/regionData';
+import { regions } from '../data/openTripMapAPI';
 
 let Component, Target;
 
@@ -24,12 +26,12 @@ function findSVGElements() {
     const region = svg.getElementById(svgPolyline[i].id);
     region.setAttribute('value', `${regions[i]}`);
     region.addEventListener('click', e => {
-      window.selectRegion(`${regions[i]}`);
+      selectRegion(`${regions[i]}`);
     });
   }
   const kyiv = svg.getElementById(svgPath.id);
   kyiv.setAttribute('value', `${regions[25]}`);
   kyiv.addEventListener('click', e => {
-    window.selectRegion(regions[25]);
+    selectRegion(regions[25]);
   });
 }

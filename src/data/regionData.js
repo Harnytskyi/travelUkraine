@@ -1,13 +1,11 @@
 import { kinds } from '../utils';
 import { loadRegionPlaces, loadPlaceInfo } from './fetchData';
-
-window.loadRegionPlaces = loadRegionPlaces;
+import renderApp from '../framework/render';
 
 export function selectRegion(region) {
   window.dataStore.error = null;
   window.dataStore.isDataLoading = true;
-  window
-    .loadRegionPlaces(region)
+  loadRegionPlaces(region)
     .then(data => {
       window.dataStore.isDataLoading = false;
       // if (error) {
@@ -32,7 +30,7 @@ export function selectRegion(region) {
     .catch(error => {
       window.dataStore.error = 'Cталася помилка ' + error;
     })
-    .finally(window.renderApp);
+    .finally(renderApp);
 }
 
 function selectAvailableKinds() {
@@ -74,7 +72,7 @@ export function changeStatus(value) {
   window.dataStore.availableKinds[value] = !window.dataStore.availableKinds[value];
   selectPlaces();
 }
-export function checkstatus(value) {
+export function checkStatus(value) {
   if (window.dataStore.availableKinds[value] == true) return true;
 }
 
@@ -93,7 +91,7 @@ export function selectPlaceToShow(place) {
     .catch(error => {
       window.dataStore.error = `Cталася помилка: ${error}`;
     })
-    .finally(window.renderApp);
+    .finally(renderApp);
 }
 function checkPlaceInfo() {
   const { placeToShow, placesInfo } = window.dataStore;

@@ -1,6 +1,6 @@
 /** @jsx createElement */
 /** @jsxFrag createFragment */
-import { checkstatus } from '../data/regionData';
+import { changeStatus, checkStatus } from '../data/regionData';
 import { createElement, createFragment } from '../framework/element';
 
 export function ShowAvailableKinds() {
@@ -12,7 +12,7 @@ export function ShowAvailableKinds() {
             type="checkbox"
             value={item}
             onchange={e => changeStatus(e.target.value)}
-            checked={checkstatus(item)}
+            checked={checkStatus(item)}
           />
           {item}
         </label>
