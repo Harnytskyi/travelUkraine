@@ -1,18 +1,18 @@
 /** @jsx createElement */
 /** @jsxFrag createFragment */
-import { changeStatus, checkStatus } from '../data/regionData';
+import { changeStatus, checkStatus, selectAvailableKinds } from '../data/regionData';
 import { createElement, createFragment } from '../framework/element';
 import Checkbox from './Checkbox';
 
-export function ShowAvailableKinds() {
+export function ShowAvailableKinds({ availableKinds, setAvailableKinds, onChange }) {
   return (
     <>
-      {Object.keys(window.dataStore.availableKinds).map(item => (
+      {Object.keys(availableKinds).map(item => (
         <Checkbox
           label={item}
           value={item}
-          onChange={e => changeStatus(e.target.value)}
-          checked={checkStatus(item)}
+          onChange={e => onChange(e.target.value, availableKinds, setAvailableKinds)}
+          checked={checkStatus(item, availableKinds)}
         />
       ))}
     </>

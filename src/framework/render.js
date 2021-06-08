@@ -1,37 +1,33 @@
 /** @jsx createElement */
 /** @jsxFrag createFragment */
 import { createElement } from './element';
-import { selectRegion } from '../data/regionData';
+import { current } from './hooks';
+import { setCurrentRegion } from '../components/App';
 import { regions } from '../data/openTripMapAPI';
+/**
+ * Renders a component and attaches it to the target DOM element
+ * @param Component - function
+ * @param target - DOM element to attach component to
+ */
+let timer;
 
-let Component, Target;
-
-export default function renderApp(componentFunction = null, target = null) {
-  if (componentFunction) Component = componentFunction;
-  if (target) Target = target;
-  Target.innerHTML = '';
-  Target.appendChild(<Component />);
-  const searchInput = document.getElementById('search');
-  if (searchInput) {
-    searchInput.focus();
-    searchInput.selectionStart = searchInput.value.length;
-  } else window.addEventListener('load', findSVGElements, false);
-}
-
-function findSVGElements() {
-  var svg = document.getElementById('mapOfUkraine').contentDocument;
-  var svgPolyline = svg.querySelectorAll('polyline');
-  var svgPath = svg.querySelector('path');
-  for (let i = 0; i < svgPolyline.length; i++) {
-    const region = svg.getElementById(svgPolyline[i].id);
-    region.setAttribute('value', `${regions[i]}`);
-    region.addEventListener('click', e => {
-      selectRegion(`${regions[i]}`);
-    });
+export function render(Component, target) {
+  function workLoop() {
+    if (current.shouldReRender) {
+      current.shouldReRender = false;
+      target.replaceChildren(<Component />);
+    }
+    //
+    const searchInput = document.getElementById('search');
+    if (searchInput) {
+      searchInput.focus();
+      searchInput.selectionStart = searchInput.value.length;
+    }
+    //
+    cancelAnimationFrame(timer);
+    timer = requestAnimationFrame(workLoop);
   }
-  const kyiv = svg.getElementById(svgPath.id);
-  kyiv.setAttribute('value', `${regions[25]}`);
-  kyiv.addEventListener('click', e => {
-    selectRegion(regions[25]);
-  });
+  timer = requestAnimationFrame(workLoop);
 }
+
+export default render;

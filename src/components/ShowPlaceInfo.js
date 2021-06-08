@@ -1,32 +1,34 @@
 /** @jsx createElement */
 /** @jsxFrag createFragment */
 import { createElement, createFragment } from '../framework/element';
-import { getPlaceInfo } from '../data/regionData';
 
-export function ShowPlaceInfo() {
-  if (window.dataStore.placeToShow == '')
-    return <h2 class={styles.info_message}>Обирай що цікавить</h2>;
-  else {
-    const place = getPlaceInfo();
+export function ShowPlaceInfo({ isLoading, error, placeData }) {
+  if (placeData.length == 0) return <h2 class={styles.info_message}>Обирай що цікавить</h2>;
+  if (isLoading) return <div>Loading...</div>;
+  if (error) {
+    return <div>{error}</div>;
+  } else {
     return (
       <>
         <div class={styles.title_place_info}>
-          <strong>{place.name}</strong>
+          <strong>{placeData.name}</strong>
         </div>
         <div class={styles.meta_place_info}>
-          GPS: {place.point.lat}, {place.point.lon} |{' '}
-          <a class="${styles.url_place_info} ${styles.link}" href={place.wikipedia}>
+          GPS: {placeData.point.lat}, {placeData.point.lon} |{' '}
+          <a class="${styles.url_place_info} ${styles.link}" href={placeData.wikipedia}>
             Wikipedia
           </a>
         </div>
-        {place.hasOwnProperty('preview') && (
+        {placeData.hasOwnProperty('preview') && (
           <div class={styles.image_block_place_info}>
-            <img src={place.preview.source} alt="" />
+            <img src={placeData.preview.source} alt="" />
           </div>
         )}
         {
           <p class={styles.text_place_info}>
-            {place.hasOwnProperty('wikipedia_extracts') ? place.wikipedia_extracts.text : ''}
+            {placeData.hasOwnProperty('wikipedia_extracts')
+              ? placeData.wikipedia_extracts.text
+              : ''}
           </p>
         }
       </>

@@ -1,106 +1,66 @@
 import { kinds } from '../utils';
-import { loadRegionPlaces, loadPlaceInfo } from './fetchData';
-import renderApp from '../framework/render';
 
-export function selectRegion(region) {
-  window.dataStore.error = null;
-  window.dataStore.isDataLoading = true;
-  loadRegionPlaces(region)
-    .then(data => {
-      window.dataStore.isDataLoading = false;
-      // if (error) {
-      //   window.dataStore.error = error;
-      //} else if (data) {
-      //data = data.data;
-      for (let place in data) {
-        const charCode = data[place].name.charCodeAt(0);
-        if (charCode > 1030 && charCode < 1112) {
-          window.dataStore.regionPlaces.push({
-            xid: data[place].xid,
-            name: data[place].name,
-            rate: data[place].rate,
-            kinds: data[place].kinds.split(','),
-          });
-        }
-      }
-      selectAvailableKinds();
-      window.dataStore.selectedPlaces = [...window.dataStore.regionPlaces];
-      //}
-    })
-    .catch(error => {
-      window.dataStore.error = 'Cталася помилка ' + error;
-    })
-    .finally(renderApp);
+export function filterRegionPlaces(data) {
+  let regionPlaces = [];
+  for (let place in data) {
+    const charCode = data[place].name.charCodeAt(0);
+    if (charCode > 1030 && charCode < 1112) {
+      regionPlaces.push({
+        xid: data[place].xid,
+        name: data[place].name,
+        rate: data[place].rate,
+        kinds: data[place].kinds.split(','),
+      });
+    }
+  }
+  return regionPlaces;
 }
 
-function selectAvailableKinds() {
+export function selectAvailableKinds(regionPlaces) {
   let availableKinds = [];
-  for (let item in window.dataStore.regionPlaces) {
-    let kindsOfObject = window.dataStore.regionPlaces[item].kinds;
-    availableKinds = availableKinds.concat(
+  let kindsArray = [];
+
+  for (let item in regionPlaces) {
+    let kindsOfObject = regionPlaces[item].kinds;
+    kindsArray = kindsArray.concat(
       kindsOfObject.filter(
-        item => kinds.some(kind => kind === item) && availableKinds.every(kind => kind != item),
+        item => kinds.some(kind => kind === item) && kindsArray.every(kind => kind != item),
       ),
     );
   }
-  for (let kind in availableKinds) {
-    window.dataStore.availableKinds[availableKinds[kind]] = true;
+  for (let kind in kindsArray) {
+    availableKinds[kindsArray[kind]] = true;
   }
+  return availableKinds;
 }
-export function selectPlaces() {
-  filterByKinds();
-  findPlaces();
-  renderApp();
+export function selectPlaces({ searchRequest, availableKinds, regionPlaces, setSelectedPlaces }) {
+  let selectedPlaces = [];
+  selectedPlaces = filterByKinds(regionPlaces, availableKinds);
+  selectedPlaces = findPlaces(selectedPlaces, searchRequest);
+  setSelectedPlaces(selectedPlaces);
 }
-function findPlaces() {
-  let searchRequest = window.dataStore.searchRequest.toUpperCase();
-  let searchedPlaces = window.dataStore.selectedPlaces.filter(item =>
+function findPlaces(selectedPlaces, requestFromInput) {
+  let searchRequest = requestFromInput.toUpperCase();
+  let searchedPlaces = selectedPlaces.filter(item =>
     item.name.toUpperCase().includes(searchRequest),
   );
-  window.dataStore.selectedPlaces = searchedPlaces;
+  return searchedPlaces;
 }
-function filterByKinds() {
+function filterByKinds(regionPlaces, availableKinds) {
   let selectedKinds = [];
-  for (let item in window.dataStore.availableKinds) {
-    if (window.dataStore.availableKinds[item] == true) selectedKinds.push(item);
+  for (let item in availableKinds) {
+    if (availableKinds[item] == true) selectedKinds.push(item);
   }
-  window.dataStore.selectedPlaces = window.dataStore.regionPlaces.filter(item =>
+  let selectedPlaces = regionPlaces.filter(item =>
     item.kinds.some(value => selectedKinds.some(kind => value === kind)),
   );
+  return selectedPlaces;
 }
-export function changeStatus(value) {
-  window.dataStore.availableKinds[value] = !window.dataStore.availableKinds[value];
-  selectPlaces();
+export function changeStatus(value, availableKinds, setAvailableKinds) {
+  let changedKinds = { ...availableKinds };
+  changedKinds[value] = !changedKinds[value];
+  setAvailableKinds(changedKinds);
 }
-export function checkStatus(value) {
-  if (window.dataStore.availableKinds[value] == true) return true;
-}
-
-export function selectPlaceToShow(place) {
-  window.dataStore.placeToShow = place;
-  window.dataStore.error = null;
-  window.dataStore.isDataLoading = true;
-  checkPlaceInfo()
-    .then(data => {
-      //window.dataStore.isDataLoading = false;
-      //if (error) window.dataStore.error = error;
-      //else if (data) {
-      if (Object.keys(data).length !== 0) window.dataStore.placesInfo[place] = data;
-      //}
-    })
-    .catch(error => {
-      window.dataStore.error = `Cталася помилка: ${error}`;
-    })
-    .finally(renderApp);
-}
-function checkPlaceInfo() {
-  const { placeToShow, placesInfo } = window.dataStore;
-  if (!placesInfo.hasOwnProperty(placeToShow)) {
-    return loadPlaceInfo(placeToShow);
-  }
-  return Promise.resolve({});
-}
-export function getPlaceInfo() {
-  const { placeToShow, placesInfo } = window.dataStore;
-  return placesInfo[placeToShow];
+export function checkStatus(value, availableKinds) {
+  if (availableKinds[value] == true) return true;
 }

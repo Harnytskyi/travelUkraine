@@ -7,3 +7,4 @@ export const kinds = [
   'other',
   'religion',
 ];
+export const isFunction = func => typeof func === 'function';
