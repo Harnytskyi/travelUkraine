@@ -1,7 +1,6 @@
-/** @jsx createElement */
-/** @jsxFrag createFragment */
+import React from 'react';
 import { changeStatus, checkStatus, selectAvailableKinds } from '../data/regionData';
-import { createElement, createFragment } from '../framework/element';
+import { kinds } from '../utils';
 import Checkbox from './Checkbox';
 
 export function ShowAvailableKinds({ availableKinds, setAvailableKinds, onChange }) {
@@ -9,7 +8,8 @@ export function ShowAvailableKinds({ availableKinds, setAvailableKinds, onChange
     <>
       {Object.keys(availableKinds).map(item => (
         <Checkbox
-          label={item}
+          key={item}
+          label={kinds[item]}
           value={item}
           onChange={e => onChange(e.target.value, availableKinds, setAvailableKinds)}
           checked={checkStatus(item, availableKinds)}

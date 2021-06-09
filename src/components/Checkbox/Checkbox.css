@@ -1,14 +1,14 @@
 /* Option */
 
 .option {
-  display: block;
-  margin-bottom: 0.5em;
+  display: inline-block;
+  margin-top: 0.5em;
 }
 
 /* Check */
 
 .check {
-  padding-left: 1.2em;
+  padding-left: 1.4em;
 }
 
 .check__input {

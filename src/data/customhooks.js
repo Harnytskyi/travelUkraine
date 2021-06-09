@@ -1,4 +1,4 @@
-import { useEffect, useState } from '../framework';
+import { useEffect, useState } from 'react';
 import {
   filterRegionPlaces,
   selectAvailableKinds,
@@ -21,6 +21,7 @@ export const useRegionPlaces = () => {
   const { data } = useExample(availableKinds, regionPlaces, searchRequest, setSelectedPlaces);
 
   useEffect(() => {
+    setIsLoading(true);
     if (currentRegion !== '') {
       loadRegionPlaces(currentRegion)
         .then(data => {

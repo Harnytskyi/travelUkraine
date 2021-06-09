@@ -24,16 +24,29 @@ body {
   width: 100%;
   background-color: white;
 }
-.obj_map_of_ukraine {
+.div_map_of_ukraine {
   width: inherit;
 }
+.svg_map_of_ukraine {
+  width: inherit;
+  height: inherit;
+}
+.region {
+  fill: rgb(255 211 54);
+}
+.region:hover,
+.city:hover {
+  /* fill: rgb(255 214 67); */
+  fill: rgb(255 219 92);
+  cursor: pointer;
+}
 .list_block {
-  padding: 20px;
+  padding: 34px 20px 20px 20px;
 }
 .search_input {
   font-family: 'Roboto', sans-serif;
-  width: 79%;
-  margin-top: 14px;
+  width: 78%;
+  /* margin-top: 14px; */
   height: 36px;
   border: solid 1px #d9d9d9;
   border-radius: 3px;
@@ -122,7 +135,7 @@ h2,
   line-height: 1.75;
   color: #384158;
   margin-top: 29px;
-  margin-bottom: 0;
+  /* margin-bottom: 0; */
 }
 .place_info {
   margin: 20px;
@@ -130,7 +143,7 @@ h2,
 .sort_block {
   display: inline-block;
   vertical-align: top;
-  margin-top: 14px;
+  /* margin-top: 14px; */
   margin-left: 3px;
 }
 .radio_sort_container {
@@ -186,4 +199,26 @@ h2,
 }
 .radio_sort_container input:checked ~ .radio_sort_rating {
   background-image: url('sort_rating.svg');
+}
+.button_favorite {
+  padding: 0px 29px;
+  height: 46px;
+  background: #14bdee;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: inherit;
+  -webkit-transition: all 200ms ease;
+  -moz-transition: all 200ms ease;
+  -ms-transition: all 200ms ease;
+  -o-transition: all 200ms ease;
+  transition: all 200ms ease;
+}
+.button_favorite:hover {
+  box-shadow: 0px 5px 40px rgb(29 34 47 / 15%);
 }

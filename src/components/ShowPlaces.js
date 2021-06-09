@@ -1,15 +1,12 @@
-/** @jsx createElement */
-/** @jsxFrag createFragment */
-import { createElement, createFragment } from '../framework/element';
-
+import React from 'react';
 export function ShowPlaces({ selectedPlaces, onClick }) {
   return (
     <>
-      <ul class={styles.ul_list}>
+      <ul className={styles.ul_list}>
         {selectedPlaces.map(item => (
-          <li>
+          <li key={item.xid}>
             <button
-              class={styles.button_place + ' ' + styles.link}
+              className={styles.button_place + ' ' + styles.link}
               value={item.xid}
               onClick={e => onClick(e.target.value)}
             >

@@ -24,7 +24,8 @@ export function selectAvailableKinds(regionPlaces) {
     let kindsOfObject = regionPlaces[item].kinds;
     kindsArray = kindsArray.concat(
       kindsOfObject.filter(
-        item => kinds.some(kind => kind === item) && kindsArray.every(kind => kind != item),
+        item =>
+          Object.keys(kinds).some(kind => kind === item) && kindsArray.every(kind => kind != item),
       ),
     );
   }

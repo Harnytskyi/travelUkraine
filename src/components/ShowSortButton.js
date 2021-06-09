@@ -1,32 +1,25 @@
-/** @jsx createElement */
-/** @jsxFrag createFragment */
+import React from 'react';
 import { checkSortOrder } from '../data/regionData';
-import { createElement, createFragment } from '../framework/element';
+import styles from '../style.css';
+
+const SORT_ORDERS = ['rating', 'alphabet'];
+const sortClasses = { rating: styles.radio_sort_rating, alphabet: styles.radio_sort_alpha };
 export function ShowSortButton({ onChange, sortOrder }) {
   return (
-    <div class={styles.sort_block}>
-      <label class={styles.radio_sort_container} value="">
-        <input
-          type="radio"
-          name="sort"
-          id="rating"
-          value="rating"
-          onChange={e => onChange(e.target.value)}
-          checked={checkSortOrder('rating', sortOrder)}
-        />
-        <div class={styles.radio_sort + ' ' + styles.radio_sort_rating}></div>
-      </label>
-      <label class={styles.radio_sort_container}>
-        <input
-          type="radio"
-          name="sort"
-          id="alphabet"
-          value="alphabet"
-          onChange={e => onChange(e.target.value)}
-          checked={checkSortOrder('alphabet', sortOrder)}
-        />
-        <div class={styles.radio_sort + ' ' + styles.radio_sort_alpha}></div>
-      </label>
+    <div className={styles.sort_block}>
+      {SORT_ORDERS.map(item => (
+        <label className={styles.radio_sort_container} key={item}>
+          <input
+            type="radio"
+            name="sort"
+            id={item}
+            value={item}
+            onChange={e => onChange(e.target.value)}
+            checked={checkSortOrder({ item }, sortOrder)}
+          />
+          <div className={styles.radio_sort + ' ' + sortClasses[item]}></div>
+        </label>
+      ))}
     </div>
   );
 }

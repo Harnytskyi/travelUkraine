@@ -1,6 +1,4 @@
-/** @jsx createElement */
-/** @jsxFrag createFragment */
-import { createElement, createFragment } from '../framework';
+import React from 'react';
 import { ShowRegions } from './ShowRegions';
 import { ShowSearchInput } from './ShowSearchInput';
 import { ShowAvailableKinds } from './ShowAvailableKinds';
@@ -27,21 +25,26 @@ export default function App() {
     isLoading,
   } = useRegionPlaces();
 
-  if (error !== null) return <h2 class={styles.error_message}>{error}</h2>;
+  if (error !== null)
+    return (
+      <h2 className={styles.error_message}>
+        {typeof error === 'object' ? error.toString() : error}
+      </h2>
+    );
   else if (regionPlaces.length == 0)
     return (
-      <div class={styles.map_of_ukraine}>
-        <ShowRegions onClick={setCurrentRegion} />
+      <div className={styles.map_of_ukraine}>
+        <ShowRegions setCurrentRegion={setCurrentRegion} />
       </div>
     );
   else {
     return (
-      <div class={styles.container}>
-        <div class={styles.list_block}>
+      <div className={styles.container}>
+        <div className={styles.list_block}>
           <ShowSearchInput
             value={searchRequest}
             onSearch={setSearchRequest}
-            onKeyup={setSearchRequest}
+            onKeyUp={setSearchRequest}
           />
           <ShowSortButton onChange={setSortOrder} sortOrder={sortOrder} />
           <ShowAvailableKinds
@@ -51,7 +54,7 @@ export default function App() {
           />
           <ShowPlaces selectedPlaces={selectedPlaces} onClick={setPlaceToShow} />
         </div>
-        <div class={styles.place_info}>
+        <div className={styles.place_info}>
           <ShowPlaceInfo error={error} isLoading={isLoading} placeData={placeData} />
         </div>
       </div>

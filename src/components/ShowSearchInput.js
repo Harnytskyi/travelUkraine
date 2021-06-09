@@ -1,14 +1,12 @@
-/** @jsx createElement */
-/** @jsxFrag createFragment */
-import { createElement, createFragment } from '../framework/element';
-export function ShowSearchInput({ value = '', onSearch, onKeyup }) {
+import React from 'react';
+export function ShowSearchInput({ value = '', onSearch, onKeyUp }) {
   return (
     <input
       id="search"
-      class={styles.search_input}
+      className={styles.search_input}
       value={value}
-      onSearch={e => onSearch(e.target.value)}
-      onKeyup={e => onKeyup(e.target.value)}
+      onChange={e => onSearch(e.target.value)}
+      onKeyUp={e => onKeyUp(e.target.value)}
       type="search"
     />
   );
