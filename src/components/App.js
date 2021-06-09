@@ -8,6 +8,7 @@ import { ShowPlaces } from './ShowPlaces';
 import { ShowPlaceInfo } from './ShowPlaceInfo';
 import { changeStatus } from '../data/regionData';
 import { useRegionPlaces } from '../data/customhooks';
+import { ShowSortButton } from './ShowSortButton';
 
 export default function App() {
   const {
@@ -20,6 +21,8 @@ export default function App() {
     selectedPlaces,
     setPlaceToShow,
     placeData,
+    sortOrder,
+    setSortOrder,
     error,
     isLoading,
   } = useRegionPlaces();
@@ -40,6 +43,7 @@ export default function App() {
             onSearch={setSearchRequest}
             onKeyup={setSearchRequest}
           />
+          <ShowSortButton onChange={setSortOrder} sortOrder={sortOrder} />
           <ShowAvailableKinds
             availableKinds={availableKinds}
             setAvailableKinds={setAvailableKinds}

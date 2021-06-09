@@ -19,10 +19,12 @@ export function ShowPlaceInfo({ isLoading, error, placeData }) {
             Wikipedia
           </a>
         </div>
-        {placeData.hasOwnProperty('preview') && (
+        {placeData.hasOwnProperty('preview') ? (
           <div class={styles.image_block_place_info}>
             <img src={placeData.preview.source} alt="" />
           </div>
+        ) : (
+          ''
         )}
         {
           <p class={styles.text_place_info}>

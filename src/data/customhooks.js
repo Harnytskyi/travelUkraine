@@ -1,5 +1,10 @@
 import { useEffect, useState } from '../framework';
-import { filterRegionPlaces, selectAvailableKinds, selectPlaces } from './regionData';
+import {
+  filterRegionPlaces,
+  selectAvailableKinds,
+  selectPlaces,
+  sortRegionPlaces,
+} from './regionData';
 import { loadRegionPlaces, loadPlaceInfo } from './fetchData';
 
 export const useRegionPlaces = () => {
@@ -12,6 +17,7 @@ export const useRegionPlaces = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [regionPlaces, setRegionPlaces] = useState([]);
   const [placeData, setPlaceData] = useState([]);
+  const [sortOrder, setSortOrder] = useState('');
   const { data } = useExample(availableKinds, regionPlaces, searchRequest, setSelectedPlaces);
 
   useEffect(() => {
@@ -62,6 +68,13 @@ export const useRegionPlaces = () => {
         .finally(() => setIsLoading(false));
     }
   }, [placeToShow]);
+  useEffect(() => {
+    if (sortOrder !== '') {
+      const sortedPlaces = sortRegionPlaces(regionPlaces, sortOrder);
+      setRegionPlaces(sortedPlaces);
+      selectPlaces({ searchRequest, availableKinds, regionPlaces, setSelectedPlaces });
+    }
+  }, [sortOrder]);
   return {
     regionPlaces,
     setCurrentRegion,
@@ -72,6 +85,8 @@ export const useRegionPlaces = () => {
     selectedPlaces,
     setPlaceToShow,
     placeData,
+    sortOrder,
+    setSortOrder,
     error,
     isLoading,
   };

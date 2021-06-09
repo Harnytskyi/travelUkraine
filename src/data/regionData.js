@@ -64,3 +64,10 @@ export function changeStatus(value, availableKinds, setAvailableKinds) {
 export function checkStatus(value, availableKinds) {
   if (availableKinds[value] == true) return true;
 }
+export function checkSortOrder(value, currentSortOrder) {
+  if (value == currentSortOrder) return true;
+}
+export function sortRegionPlaces(regionPlaces, sortOrder) {
+  if (sortOrder == 'rating') return regionPlaces.sort((a, b) => a.rate - b.rate);
+  if (sortOrder == 'alphabet') return regionPlaces.sort((a, b) => a.name.localeCompare(b.name));
+}
