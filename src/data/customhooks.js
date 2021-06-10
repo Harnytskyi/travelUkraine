@@ -18,6 +18,7 @@ export const useRegionPlaces = () => {
   const [regionPlaces, setRegionPlaces] = useState([]);
   const [placeData, setPlaceData] = useState([]);
   const [sortOrder, setSortOrder] = useState('');
+  const [favoritePlaces, setFavoritePlaces] = useState([]);
   const { data } = useExample(availableKinds, regionPlaces, searchRequest, setSelectedPlaces);
 
   useEffect(() => {
@@ -33,6 +34,11 @@ export const useRegionPlaces = () => {
           setSelectedPlaces(filteredRegionPlaces);
           const selectedKinds = selectAvailableKinds(filteredRegionPlaces);
           setAvailableKinds(selectedKinds);
+          let locStorFavPlaces = JSON.parse(localStorage.getItem('favoritePlaces'));
+          if (locStorFavPlaces !== null) {
+            let locStorFavPlacesxid = locStorFavPlaces.map(item => item.xid);
+            setFavoritePlaces(locStorFavPlacesxid);
+          }
         })
         .catch(error => setError(error))
         .finally(() => setIsLoading(false));
@@ -87,6 +93,8 @@ export const useRegionPlaces = () => {
     setPlaceToShow,
     placeData,
     sortOrder,
+    favoritePlaces,
+    setFavoritePlaces,
     setSortOrder,
     error,
     isLoading,

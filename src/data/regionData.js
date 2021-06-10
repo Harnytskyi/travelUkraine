@@ -72,3 +72,37 @@ export function sortRegionPlaces(regionPlaces, sortOrder) {
   if (sortOrder == 'rating') return regionPlaces.sort((a, b) => a.rate - b.rate);
   if (sortOrder == 'alphabet') return regionPlaces.sort((a, b) => a.name.localeCompare(b.name));
 }
+export function changeFavoritePlaces(placeData, favoritePlaces, setFavoritePlaces) {
+  let changedFavoritePlaces = [...favoritePlaces];
+  let locStorFavPlaces = JSON.parse(localStorage.getItem('favoritePlaces'));
+  if (locStorFavPlaces == null) locStorFavPlaces = [];
+  const valueIndex = changedFavoritePlaces.indexOf(placeData.xid);
+  if (valueIndex == -1) {
+    changedFavoritePlaces.push(placeData.xid);
+    let FavoritePlace = {
+      xid: placeData.xid,
+      name: placeData.name,
+      state: placeData.address.state,
+    };
+    if (placeData.wikipedia_extracts !== undefined) {
+      if (placeData.wikipedia_extracts.text.length > 100)
+        FavoritePlace.text = placeData.wikipedia_extracts.text.slice(0, 101) + '...';
+      else FavoritePlace.text = placeData.wikipedia_extracts.text;
+    }
+    if (placeData.preview !== undefined) {
+      FavoritePlace.preview = placeData.preview.source;
+    }
+    locStorFavPlaces.push(FavoritePlace);
+  } else {
+    changedFavoritePlaces.splice(valueIndex, 1);
+    const locStoreIndex = locStorFavPlaces.indexOf(
+      locStorFavPlaces.find(item => item.xid == placeData.xid),
+    );
+    locStorFavPlaces.splice(locStoreIndex, 1);
+  }
+  setFavoritePlaces(changedFavoritePlaces);
+  localStorage.setItem('favoritePlaces', JSON.stringify(locStorFavPlaces));
+}
+export function checkFavoritePlace(id, favoritePlaces) {
+  if (favoritePlaces.indexOf(id) !== -1) return true;
+}

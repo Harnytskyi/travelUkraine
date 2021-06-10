@@ -1,9 +1,8 @@
 import React from 'react';
-import { changeStatus, checkStatus, selectAvailableKinds } from '../data/regionData';
 import { kinds } from '../utils';
 import Checkbox from './Checkbox';
 
-export function ShowAvailableKinds({ availableKinds, setAvailableKinds, onChange }) {
+export function ShowAvailableKinds({ availableKinds, setAvailableKinds, onChange, checkStatus }) {
   return (
     <>
       {Object.keys(availableKinds).map(item => (

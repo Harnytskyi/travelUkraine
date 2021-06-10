@@ -1,5 +1,13 @@
 import React from 'react';
-export function ShowPlaceInfo({ isLoading, error, placeData }) {
+export function ShowPlaceInfo({
+  isLoading,
+  error,
+  placeData,
+  changeFavoritePlaces,
+  favoritePlaces,
+  setFavoritePlaces,
+  checkFavoritePlace,
+}) {
   if (placeData.length == 0) return <h2 className={styles.info_message}>Обирай що цікавить</h2>;
   if (isLoading) return <div>Loading...</div>;
   if (error) {
@@ -12,7 +20,7 @@ export function ShowPlaceInfo({ isLoading, error, placeData }) {
         </div>
         <div className={styles.meta_place_info}>
           GPS: {placeData.point.lat}, {placeData.point.lon} |{' '}
-          <a className="${styles.url_place_info} ${styles.link}" href={placeData.wikipedia}>
+          <a className={styles.url_place_info + ' ' + styles.link} href={placeData.wikipedia}>
             Wikipedia
           </a>
         </div>
@@ -30,7 +38,16 @@ export function ShowPlaceInfo({ isLoading, error, placeData }) {
               : ''}
           </p>
         }
-        <button className={styles.button_favorite}>Додати в обране</button>
+        <label>
+          <input
+            type="checkbox"
+            className={styles.check_favorite}
+            key={placeData.xid}
+            onChange={e => changeFavoritePlaces(placeData, favoritePlaces, setFavoritePlaces)}
+            checked={checkFavoritePlace(placeData.xid, favoritePlaces)}
+          ></input>
+          <div className={styles.button_favorite}></div>
+        </label>
       </>
     );
   }

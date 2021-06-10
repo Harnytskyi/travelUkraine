@@ -17,8 +17,11 @@ body {
 }
 .container {
   display: grid;
-  margin-top: 40px;
   grid-template-columns: 1fr 2fr;
+}
+.container,
+.favorite_container {
+  margin-top: 40px;
   box-shadow: 0px 1px 10px rgb(29 34 47 / 10%);
   max-width: 1200px;
   width: 100%;
@@ -200,8 +203,27 @@ h2,
 .radio_sort_container input:checked ~ .radio_sort_rating {
   background-image: url('sort_rating.svg');
 }
+.check_favorite {
+  position: absolute;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.check_favorite:checked ~ .button_favorite {
+  background-color: white;
+  color: #14bdee;
+  border: 3px solid;
+}
+.check_favorite:checked ~ .button_favorite::before {
+  content: 'Додано';
+}
 .button_favorite {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* width: fit-content; */
   padding: 0px 29px;
+  width: 185px;
   height: 46px;
   background: #14bdee;
   color: #ffffff;
@@ -211,6 +233,7 @@ h2,
   border: none;
   outline: none;
   border-radius: 3px;
+  box-sizing: border-box;
   cursor: pointer;
   font-family: inherit;
   -webkit-transition: all 200ms ease;
@@ -219,6 +242,90 @@ h2,
   -o-transition: all 200ms ease;
   transition: all 200ms ease;
 }
+.button_favorite::before {
+  content: 'Додати в обране';
+}
 .button_favorite:hover {
   box-shadow: 0px 5px 40px rgb(29 34 47 / 15%);
+}
+.favorite_container {
+  display: flex;
+  flex-flow: column wrap;
+  gap: 30px;
+  align-content: center;
+  padding: 70px 0px;
+  min-height: 480px;
+}
+.favorite_place {
+  width: 360px;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0px 1px 10px rgb(29 34 47 / 10%);
+  -webkit-transition: all 200ms ease;
+  -moz-transition: all 200ms ease;
+  -ms-transition: all 200ms ease;
+  -o-transition: all 200ms ease;
+  transition: all 200ms ease;
+}
+.favorite_place:hover {
+  box-shadow: 0px 5px 40px rgb(29 34 47 / 15%);
+}
+.favorite_place_image {
+  background-color: lavender;
+  object-fit: none;
+  object-position: center;
+  max-height: 250px;
+  min-width: 100%;
+}
+.favorite_place_body {
+  padding-left: 32px;
+  padding-right: 30px;
+  padding-top: 23px;
+  padding-bottom: 23px;
+}
+.favorite_place_title > a {
+  font-family: 'Roboto Slab', serif;
+  font-size: 20px;
+  line-height: 1.4;
+  font-weight: 700;
+  text-decoration: none;
+  color: #384158;
+  -webkit-transition: all 200ms ease;
+  -moz-transition: all 200ms ease;
+  -ms-transition: all 200ms ease;
+  -o-transition: all 200ms ease;
+  transition: all 200ms ease;
+}
+.favorite_place_title > a:hover {
+  color: #14bdee;
+}
+.favorite_place_meta {
+  margin-top: 11px;
+}
+.favorite_place_meta > a {
+  font-size: 14px;
+  font-weight: 400;
+  color: #b5b8be;
+  text-transform: uppercase;
+  text-decoration: none;
+  -webkit-transition: all 200ms ease;
+  -moz-transition: all 200ms ease;
+  -ms-transition: all 200ms ease;
+  -o-transition: all 200ms ease;
+  transition: all 200ms ease;
+}
+.favorite_place_meta > a:hover {
+  color: #14bdee;
+}
+.favorite_place_text {
+  margin-top: 12px;
+}
+.favorite_place_text > p {
+  font-size: 14px;
+  font-weight: 400;
+  color: #76777a;
+  line-height: 2;
+}
+p:last-of-type {
+  margin-bottom: 0;
 }
