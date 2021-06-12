@@ -1,6 +1,4 @@
 import React from 'react';
-import mapOfUkraine from '../map-ukraine.svg';
-import { regions } from '../data/openTripMapAPI';
 import { ShowMap } from './ShowMap';
 
 export function ShowRegions({ setCurrentRegion }) {
