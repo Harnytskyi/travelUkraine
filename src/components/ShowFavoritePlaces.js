@@ -18,12 +18,8 @@ export function ShowFavoritePlaces() {
               ''
             )}
             <div className={styles.favorite_place_body}>
-              <div className={styles.favorite_place_title}>
-                <a href="#">{placeData.name}</a>
-              </div>
-              <div className={styles.favorite_place_meta}>
-                <a href="">{placeData.state}</a>
-              </div>
+              <div className={styles.favorite_place_title}>{placeData.name}</div>
+              <div className={styles.favorite_place_meta}>{placeData.state}</div>
               {placeData.hasOwnProperty('text') ? (
                 <div className={styles.favorite_place_text}>
                   <p>{placeData.text}</p>

@@ -26,10 +26,7 @@ export const useRegionPlaces = () => {
     if (currentRegion !== '') {
       loadRegionPlaces(currentRegion)
         .then(data => {
-          //const {message, code} = data;
-          //if(code !== '200' && message) throw Error(message);
           const filteredRegionPlaces = filterRegionPlaces(data);
-          //setError(null);
           setRegionPlaces(filteredRegionPlaces);
           setSelectedPlaces(filteredRegionPlaces);
           const selectedKinds = selectAvailableKinds(filteredRegionPlaces);
@@ -66,9 +63,6 @@ export const useRegionPlaces = () => {
     if (placeToShow !== '') {
       loadPlaceInfo(placeToShow)
         .then(data => {
-          //const {message, code} = data;
-          //if(code !== '200' && message) throw Error(message);
-          //setError(null);
           setPlaceData(data);
         })
         .catch(error => setError(error))

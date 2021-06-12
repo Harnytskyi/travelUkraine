@@ -287,7 +287,7 @@ h2,
   padding-top: 23px;
   padding-bottom: 23px;
 }
-.favorite_place_title > a {
+.favorite_place_title {
   font-family: 'Roboto Slab', serif;
   font-size: 20px;
   line-height: 1.4;
@@ -300,13 +300,8 @@ h2,
   -o-transition: all 200ms ease;
   transition: all 200ms ease;
 }
-.favorite_place_title > a:hover {
-  color: #14bdee;
-}
 .favorite_place_meta {
   margin-top: 11px;
-}
-.favorite_place_meta > a {
   font-size: 14px;
   font-weight: 400;
   color: #b5b8be;
@@ -317,9 +312,6 @@ h2,
   -ms-transition: all 200ms ease;
   -o-transition: all 200ms ease;
   transition: all 200ms ease;
-}
-.favorite_place_meta > a:hover {
-  color: #14bdee;
 }
 .favorite_place_text {
   margin-top: 12px;
