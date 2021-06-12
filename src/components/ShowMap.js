@@ -9,9 +9,7 @@ export function ShowMap({ onClick }) {
         height={359}
         viewBox="0 0 531 359"
         xmlns="http://www.w3.org/2000/svg"
-        //{...props}
       >
-        {/* <title>{"ua-with-crimea"}</title> */}
         <g fill="none" fillRule="evenodd" stroke="none" strokeWidth="1">
           <path
             className={styles.region}

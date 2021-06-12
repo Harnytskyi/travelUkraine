@@ -9,6 +9,10 @@ body > div {
 body {
   margin: 0;
   background-color: #f9fafc;
+  /* background: #f2f4f5; */
+}
+a {
+  text-decoration: none;
 }
 .map_of_ukraine {
   align-self: center;
@@ -21,7 +25,7 @@ body {
 }
 .container,
 .favorite_container {
-  margin-top: 40px;
+  margin-top: 128px;
   box-shadow: 0px 1px 10px rgb(29 34 47 / 10%);
   max-width: 1200px;
   width: 100%;
@@ -283,7 +287,7 @@ h2,
   padding-top: 23px;
   padding-bottom: 23px;
 }
-.favorite_place_title > a {
+.favorite_place_title {
   font-family: 'Roboto Slab', serif;
   font-size: 20px;
   line-height: 1.4;
@@ -296,13 +300,8 @@ h2,
   -o-transition: all 200ms ease;
   transition: all 200ms ease;
 }
-.favorite_place_title > a:hover {
-  color: #14bdee;
-}
 .favorite_place_meta {
   margin-top: 11px;
-}
-.favorite_place_meta > a {
   font-size: 14px;
   font-weight: 400;
   color: #b5b8be;
@@ -313,9 +312,6 @@ h2,
   -ms-transition: all 200ms ease;
   -o-transition: all 200ms ease;
   transition: all 200ms ease;
-}
-.favorite_place_meta > a:hover {
-  color: #14bdee;
 }
 .favorite_place_text {
   margin-top: 12px;
@@ -328,4 +324,78 @@ h2,
 }
 p:last-of-type {
   margin-bottom: 0;
+}
+.header {
+  position: fixed;
+  background-color: #ffffff;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  box-shadow: 0px 5px 20px rgb(0 0 0 / 5%);
+  -webkit-transition: all 200ms ease;
+  -moz-transition: all 200ms ease;
+  -ms-transition: all 200ms ease;
+  -o-transition: all 200ms ease;
+  transition: all 200ms ease;
+}
+.header_content {
+  display: flex;
+  align-items: center;
+  height: 90px;
+  width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  -webkit-transition: all 200ms ease;
+  -moz-transition: all 200ms ease;
+  -ms-transition: all 200ms ease;
+  -o-transition: all 200ms ease;
+  transition: all 200ms ease;
+}
+.header.scrolled .header_content {
+  height: 60px;
+}
+
+.logo_text {
+  font-family: 'Roboto Slab', serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 0.75;
+  color: #384158;
+  vertical-align: middle;
+  margin-left: 4px;
+  -webkit-transition: all 200ms ease;
+  -moz-transition: all 200ms ease;
+  -ms-transition: all 200ms ease;
+  -o-transition: all 200ms ease;
+  transition: all 200ms ease;
+}
+.header.scrolled .logo_text {
+  font-size: 24px;
+}
+.logo_text span {
+  color: #14bdee;
+}
+.main_nav_container {
+  margin-left: auto;
+}
+.main_nav li {
+  display: inline-block;
+  position: relative;
+  margin-right: 44px;
+}
+.main_nav li button {
+  font-size: 18px;
+  font-weight: 500;
+  color: #384158;
+  border: none;
+  background-color: white;
+  -webkit-transition: all 200ms ease;
+  -moz-transition: all 200ms ease;
+  -ms-transition: all 200ms ease;
+  -o-transition: all 200ms ease;
+  transition: all 200ms ease;
+}
+.main_nav li button:hover {
+  color: #14bdee;
 }

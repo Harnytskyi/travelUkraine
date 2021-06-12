@@ -1,7 +1,10 @@
 import React from 'react';
 export function ShowFavoritePlaces() {
   let locStorFavPlaces = JSON.parse(localStorage.getItem('favoritePlaces'));
-  let containerHeight = { height: Object.keys(locStorFavPlaces).length * 160 };
+  let arrayLength;
+  if (locStorFavPlaces == null || locStorFavPlaces.length == 0) arrayLength = 1;
+  else arrayLength = Object.keys(locStorFavPlaces).length;
+  let containerHeight = { height: arrayLength * 235 };
   return (
     <div className={styles.favorite_container} style={containerHeight}>
       {locStorFavPlaces == null || locStorFavPlaces.length == 0 ? (
@@ -15,12 +18,8 @@ export function ShowFavoritePlaces() {
               ''
             )}
             <div className={styles.favorite_place_body}>
-              <div className={styles.favorite_place_title}>
-                <a href="#">{placeData.name}</a>
-              </div>
-              <div className={styles.favorite_place_meta}>
-                <a href="">{placeData.state}</a>
-              </div>
+              <div className={styles.favorite_place_title}>{placeData.name}</div>
+              <div className={styles.favorite_place_meta}>{placeData.state}</div>
               {placeData.hasOwnProperty('text') ? (
                 <div className={styles.favorite_place_text}>
                   <p>{placeData.text}</p>
