@@ -6,9 +6,4 @@ import App from './components/App';
 
 window.styles = styles;
 
-render(
-  <Router>
-    <App />
-  </Router>,
-  document.getElementById('app-root'),
-);
+render(<App />, document.getElementById('app-root'));
