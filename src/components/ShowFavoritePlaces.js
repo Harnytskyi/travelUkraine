@@ -1,7 +1,10 @@
 import React from 'react';
 export function ShowFavoritePlaces() {
   let locStorFavPlaces = JSON.parse(localStorage.getItem('favoritePlaces'));
-  let containerHeight = { height: Object.keys(locStorFavPlaces).length * 160 };
+  let arrayLength;
+  if (locStorFavPlaces == null || locStorFavPlaces.length == 0) arrayLength = 1;
+  else arrayLength = Object.keys(locStorFavPlaces).length;
+  let containerHeight = { height: arrayLength * 235 };
   return (
     <div className={styles.favorite_container} style={containerHeight}>
       {locStorFavPlaces == null || locStorFavPlaces.length == 0 ? (
