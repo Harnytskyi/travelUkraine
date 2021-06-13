@@ -13,3 +13,5 @@ The application uses [OpenTripMap API](https://opentripmap.io/docs)
 4. Creating a list of favorite objects
 5. Filtering the list by categories
 6. Sorting the list of objects by rating and alphabet
+
+The language of the application is Ukrainian, so among the data obtained from the API are selected only those whose names contain Cyrillic characters.
