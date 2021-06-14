@@ -7,4 +7,4 @@ export const kinds = {
   other: 'інше',
   religion: 'релігія',
 };
-export const isFunction = func => typeof func === 'function';
+export const isFunction = func => typeof func === 'function'; // TODO

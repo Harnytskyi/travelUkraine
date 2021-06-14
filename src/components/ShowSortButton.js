@@ -17,7 +17,7 @@ export function ShowSortButton({ onChange, sortOrder }) {
             onChange={e => onChange(e.target.value)}
             checked={checkSortOrder({ item }, sortOrder)}
           />
-          <div className={styles.radio_sort + ' ' + sortClasses[item]}></div>
+          <div className={styles.radio_sort + ' ' + sortClasses[item]}></div> //todo
         </label>
       ))}
     </div>

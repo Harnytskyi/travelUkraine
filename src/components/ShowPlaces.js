@@ -6,7 +6,7 @@ export function ShowPlaces({ selectedPlaces, onClick }) {
         {selectedPlaces.map(item => (
           <li key={item.xid}>
             <button
-              className={styles.button_place + ' ' + styles.link}
+              className={styles.button_place + ' ' + styles.link} //todo
               value={item.xid}
               onClick={e => onClick(e.target.value)}
             >

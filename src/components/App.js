@@ -36,58 +36,62 @@ export default function App() {
     isLoading,
   } = useRegionPlaces();
 
-  if (error !== null)
+  if (error !== null) // TODO
     return (
       <h2 className={styles.error_message}>
         {typeof error === 'object' ? error.toString() : error}
       </h2>
     );
-  else if (showFavPlaces)
+
+  if (showFavPlaces)
     return (
       <>
         <ShowHeader setShowFavPlaces={setShowFavPlaces} />
+        <>
+        </>
         <ShowFavoritePlaces />
       </>
     );
-  else if (regionPlaces.length == 0)
+
+  if (regionPlaces.length === 0) // TODO
     return (
       <div className={styles.map_of_ukraine}>
         <ShowRegions setCurrentRegion={setCurrentRegion} />
       </div>
     );
-  else {
-    return (
-      <>
-        <ShowHeader setShowFavPlaces={setShowFavPlaces} />
-        <div className={styles.container}>
-          <div className={styles.list_block}>
-            <ShowSearchInput
-              value={searchRequest}
-              onSearch={setSearchRequest}
-              onKeyUp={setSearchRequest}
-            />
-            <ShowSortButton onChange={setSortOrder} sortOrder={sortOrder} />
-            <ShowAvailableKinds
-              availableKinds={availableKinds}
-              setAvailableKinds={setAvailableKinds}
-              onChange={changeStatus}
-              checkStatus={checkStatus}
-            />
-            <ShowPlaces selectedPlaces={selectedPlaces} onClick={setPlaceToShow} />
-          </div>
-          <div className={styles.place_info}>
-            <ShowPlaceInfo
-              error={error}
-              isLoading={isLoading}
-              placeData={placeData}
-              changeFavoritePlaces={changeFavoritePlaces}
-              favoritePlaces={favoritePlaces}
-              setFavoritePlaces={setFavoritePlaces}
-              checkFavoritePlace={checkFavoritePlace}
-            />
-          </div>
+
+  return (
+    <>
+      <ShowHeader setShowFavPlaces={setShowFavPlaces} />
+      <div className={styles.container}>
+        <div className={styles.list_block}>
+          <ShowSearchInput
+            value={searchRequest}
+            onSearch={setSearchRequest}
+            onKeyUp={setSearchRequest}
+          />
+          <ShowSortButton onChange={setSortOrder} sortOrder={sortOrder} />
+          <ShowAvailableKinds
+            availableKinds={availableKinds}
+            setAvailableKinds={setAvailableKinds}
+            onChange={changeStatus}
+            checkStatus={checkStatus}
+          />
+          <ShowPlaces selectedPlaces={selectedPlaces} onClick={setPlaceToShow} />
         </div>
-      </>
-    );
-  }
+        <div className={styles.place_info}>
+          <ShowPlaceInfo
+            error={error}
+            isLoading={isLoading}
+            placeData={placeData}
+            changeFavoritePlaces={changeFavoritePlaces}
+            favoritePlaces={favoritePlaces}
+            setFavoritePlaces={setFavoritePlaces}
+            checkFavoritePlace={checkFavoritePlace}
+          />
+        </div>
+      </div>
+    </>
+  );
+
 }

@@ -8,11 +8,15 @@ export function ShowPlaceInfo({
   setFavoritePlaces,
   checkFavoritePlace,
 }) {
-  if (placeData.length == 0) return <h2 className={styles.info_message}>Обирай що цікавить</h2>;
+  if (placeData.length === 0) return <h2 className={styles.info_message}>Обирай що цікавить</h2>;
+
   if (isLoading) return <div>Loading...</div>;
+
   if (error) {
     return <div>{error}</div>;
-  } else {
+  }
+
+
     return (
       <>
         <div className={styles.title_place_info}>
@@ -50,5 +54,5 @@ export function ShowPlaceInfo({
         </label>
       </>
     );
-  }
+
 }

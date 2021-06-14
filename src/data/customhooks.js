@@ -20,7 +20,7 @@ export const useRegionPlaces = () => {
   const [sortOrder, setSortOrder] = useState('');
   const [favoritePlaces, setFavoritePlaces] = useState([]);
   const [showFavPlaces, setShowFavPlaces] = useState(false);
-  const { data } = useExample(availableKinds, regionPlaces, searchRequest, setSelectedPlaces);
+  useExample(availableKinds, regionPlaces, searchRequest, setSelectedPlaces);
 
   useEffect(() => {
     setIsLoading(true);
@@ -42,17 +42,18 @@ export const useRegionPlaces = () => {
         .finally(() => setIsLoading(false));
     }
   }, [currentRegion]);
+
   function useExample(availableKinds, regionPlaces, searchRequest, setSelectedPlaces) {
-    const [data, updateData] = useState([]);
+    // const [data, updateData] = useState([]); // todo
 
     useEffect(() => {
       let kindsCount = Object.keys(availableKinds).length;
       if (kindsCount != 0 && regionPlaces != undefined)
         selectPlaces({ searchRequest, availableKinds, regionPlaces, setSelectedPlaces });
     }, [availableKinds]);
-    return {
-      data,
-    };
+    // return {
+    //   data,
+    // };
   }
 
   useEffect(() => {
@@ -60,6 +61,7 @@ export const useRegionPlaces = () => {
       selectPlaces({ searchRequest, availableKinds, regionPlaces, setSelectedPlaces });
     }
   }, [searchRequest]);
+
   useEffect(() => {
     if (placeToShow !== '') {
       loadPlaceInfo(placeToShow)
@@ -70,6 +72,7 @@ export const useRegionPlaces = () => {
         .finally(() => setIsLoading(false));
     }
   }, [placeToShow]);
+
   useEffect(() => {
     if (sortOrder !== '') {
       const sortedPlaces = sortRegionPlaces(regionPlaces, sortOrder);
@@ -77,6 +80,7 @@ export const useRegionPlaces = () => {
       selectPlaces({ searchRequest, availableKinds, regionPlaces, setSelectedPlaces });
     }
   }, [sortOrder]);
+
   return {
     regionPlaces,
     setCurrentRegion,

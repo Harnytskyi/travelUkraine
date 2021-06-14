@@ -7,6 +7,10 @@ export function ShowHeader({ setShowFavPlaces }) {
       window.addEventListener('scroll', () => setSmall(window.pageYOffset > 100));
     }
   }, []);
+
+
+  const handleClickHidePlaces = () => setShowFavPlaces(false);
+
   return (
     <header className={styles.header + ' ' + (small ? styles.scrolled : '')}>
       <div className={styles.header_content}>
@@ -20,10 +24,10 @@ export function ShowHeader({ setShowFavPlaces }) {
         <nav className={styles.main_nav_container}>
           <ul className={styles.main_nav}>
             <li>
-              <button onClick={e => setShowFavPlaces(false)}>Головна</button>
+              <button onClick={handleClickHidePlaces}>Головна</button>
             </li>
             <li>
-              <button onClick={e => setShowFavPlaces(true)}>Обрані місця</button>
+              <button onClick={() => setShowFavPlaces(true)}>Обрані місця</button>
             </li>
           </ul>
         </nav>

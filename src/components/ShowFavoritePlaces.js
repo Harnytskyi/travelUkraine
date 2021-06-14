@@ -1,10 +1,21 @@
 import React from 'react';
+
+const WIDTH___ = 235
+
 export function ShowFavoritePlaces() {
-  let locStorFavPlaces = JSON.parse(localStorage.getItem('favoritePlaces'));
+  let locStorFavPlaces = JSON.parse(localStorage.getItem('favoritePlaces')); // locStoreFavPlaces
   let arrayLength;
-  if (locStorFavPlaces == null || locStorFavPlaces.length == 0) arrayLength = 1;
-  else arrayLength = Object.keys(locStorFavPlaces).length;
-  let containerHeight = { height: arrayLength * 235 };
+
+  if (locStorFavPlaces == null || locStorFavPlaces.length == 0) {
+    arrayLength = 1;
+  }  // TODO === , 1 - magicNumber
+  else {
+    arrayLength = Object.keys(locStorFavPlaces).length;
+  }
+
+  let containerHeight = { height: arrayLength * WIDTH___ }; //  magicNumber const
+
+
   return (
     <div className={styles.favorite_container} style={containerHeight}>
       {locStorFavPlaces == null || locStorFavPlaces.length == 0 ? (
