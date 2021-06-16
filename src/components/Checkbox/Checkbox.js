@@ -3,7 +3,7 @@ import styles from './Checkbox.css';
 
 export default function Checkbox({ label = '', value = '', onChange = null, checked = false }) {
   return (
-    <label className={styles.check + ' ' + styles.option}>  // TODO `${styles.check} ${styles.option}`
+    <label className={`${styles.check} ${styles.option}`}>
       <input
         className={styles.check__input}
         type="checkbox"

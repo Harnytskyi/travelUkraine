@@ -1,14 +1,21 @@
 import React from 'react';
-export function ShowPlaces({ selectedPlaces, onClick }) {
+import styles from '../style.css';
+
+export function ShowPlaces({ selectedPlaces, setPlaceToShow, launchScroll }) {
+  const handleSetPlaceToShow = e => {
+    setPlaceToShow(e.target.value);
+    launchScroll();
+  };
+
   return (
     <>
       <ul className={styles.ul_list}>
         {selectedPlaces.map(item => (
           <li key={item.xid}>
             <button
-              className={styles.button_place + ' ' + styles.link} //todo
+              className={`${styles.button_place} ${styles.link}`}
               value={item.xid}
-              onClick={e => onClick(e.target.value)}
+              onClick={handleSetPlaceToShow}
             >
               {item.name}
             </button>

@@ -1,47 +1,45 @@
 import React from 'react';
-
-const WIDTH___ = 235
+import styles from '../style.css';
 
 export function ShowFavoritePlaces() {
-  let locStorFavPlaces = JSON.parse(localStorage.getItem('favoritePlaces')); // locStoreFavPlaces
-  let arrayLength;
+  let localStorageFavPlaces = JSON.parse(localStorage.getItem('favoritePlaces'));
 
-  if (locStorFavPlaces == null || locStorFavPlaces.length == 0) {
-    arrayLength = 1;
-  }  // TODO === , 1 - magicNumber
-  else {
-    arrayLength = Object.keys(locStorFavPlaces).length;
-  }
+  if (localStorageFavPlaces == null || localStorageFavPlaces.length === 0)
+    return (
+      <div className={styles.favorite_container} style={containerHeight}>
+        <h2 className={styles.info_message}>Немає обраних місць</h2>
+      </div>
+    );
 
-  let containerHeight = { height: arrayLength * WIDTH___ }; //  magicNumber const
-
+  const SECTION_HEIGHT = 512;
+  const NUMBER_OF_COLUMNS = 3;
+  const NUMBER_OF_SECTIONS = Math.ceil(
+    Object.keys(localStorageFavPlaces).length / NUMBER_OF_COLUMNS,
+  );
+  const containerHeight = { height: NUMBER_OF_SECTIONS * SECTION_HEIGHT };
 
   return (
     <div className={styles.favorite_container} style={containerHeight}>
-      {locStorFavPlaces == null || locStorFavPlaces.length == 0 ? (
-        <h2 className={styles.info_message}>Немає обраних місць</h2>
-      ) : (
-        locStorFavPlaces.map(placeData => (
-          <div key={placeData.xid} className={styles.favorite_place}>
-            {placeData.hasOwnProperty('preview') ? (
-              <img className={styles.favorite_place_image} src={placeData.preview} alt="" />
+      {localStorageFavPlaces.map(placeData => (
+        <div key={placeData.xid} className={styles.favorite_place}>
+          {placeData.hasOwnProperty('preview') ? (
+            <img className={styles.favorite_place_image} src={placeData.preview} alt="" />
+          ) : (
+            ''
+          )}
+          <div className={styles.favorite_place_body}>
+            <div className={styles.favorite_place_title}>{placeData.name}</div>
+            <div className={styles.favorite_place_meta}>{placeData.state}</div>
+            {placeData.hasOwnProperty('text') ? (
+              <div className={styles.favorite_place_text}>
+                <p>{placeData.text}</p>
+              </div>
             ) : (
               ''
             )}
-            <div className={styles.favorite_place_body}>
-              <div className={styles.favorite_place_title}>{placeData.name}</div>
-              <div className={styles.favorite_place_meta}>{placeData.state}</div>
-              {placeData.hasOwnProperty('text') ? (
-                <div className={styles.favorite_place_text}>
-                  <p>{placeData.text}</p>
-                </div>
-              ) : (
-                ''
-              )}
-            </div>
           </div>
-        ))
-      )}
+        </div>
+      ))}
     </div>
   );
 }

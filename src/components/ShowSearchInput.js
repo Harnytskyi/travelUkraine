@@ -1,12 +1,16 @@
 import React from 'react';
-export function ShowSearchInput({ value = '', onSearch, onKeyUp }) {
+import styles from '../style.css';
+
+export function ShowSearchInput({ value = '', setSearchRequest }) {
+  const handleSearch = e => setSearchRequest(e.target.value);
+
   return (
     <input
       id="search"
       className={styles.search_input}
       value={value}
-      onChange={e => onSearch(e.target.value)}
-      onKeyUp={e => onKeyUp(e.target.value)}
+      onChange={handleSearch}
+      onKeyUp={handleSearch}
       type="search"
     />
   );

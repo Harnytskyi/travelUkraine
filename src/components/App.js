@@ -14,6 +14,31 @@ import { useRegionPlaces } from '../data/customhooks';
 import { ShowSortButton } from './ShowSortButton';
 import { ShowFavoritePlaces } from './ShowFavoritePlaces';
 import { ShowHeader } from './ShowHeader';
+import styles from '../style.css';
+
+let scrolled;
+let interval;
+let timer;
+const CONTENT_COORDINATE_Y = 68;
+
+function launchScroll() {
+  if (window.pageYOffset > CONTENT_COORDINATE_Y) {
+    scrolled = window.pageYOffset;
+    interval = scrolled / 20;
+    scrollToTop();
+  }
+}
+
+function scrollToTop() {
+  if (scrolled > CONTENT_COORDINATE_Y) {
+    window.scrollTo(0, scrolled);
+    scrolled = scrolled - interval;
+    timer = setTimeout(scrollToTop, 5);
+  } else {
+    clearTimeout(timer);
+    window.scrollTo(0, CONTENT_COORDINATE_Y);
+  }
+}
 
 export default function App() {
   const {
@@ -36,7 +61,7 @@ export default function App() {
     isLoading,
   } = useRegionPlaces();
 
-  if (error !== null) // TODO
+  if (error !== null)
     return (
       <h2 className={styles.error_message}>
         {typeof error === 'object' ? error.toString() : error}
@@ -46,14 +71,15 @@ export default function App() {
   if (showFavPlaces)
     return (
       <>
-        <ShowHeader setShowFavPlaces={setShowFavPlaces} />
-        <>
-        </>
+        <ShowHeader
+          setShowFavPlaces={setShowFavPlaces}
+          CONTENT_COORDINATE_Y={CONTENT_COORDINATE_Y}
+        />
         <ShowFavoritePlaces />
       </>
     );
 
-  if (regionPlaces.length === 0) // TODO
+  if (regionPlaces.length === 0)
     return (
       <div className={styles.map_of_ukraine}>
         <ShowRegions setCurrentRegion={setCurrentRegion} />
@@ -62,14 +88,10 @@ export default function App() {
 
   return (
     <>
-      <ShowHeader setShowFavPlaces={setShowFavPlaces} />
+      <ShowHeader setShowFavPlaces={setShowFavPlaces} CONTENT_COORDINATE_Y={CONTENT_COORDINATE_Y} />
       <div className={styles.container}>
         <div className={styles.list_block}>
-          <ShowSearchInput
-            value={searchRequest}
-            onSearch={setSearchRequest}
-            onKeyUp={setSearchRequest}
-          />
+          <ShowSearchInput value={searchRequest} setSearchRequest={setSearchRequest} />
           <ShowSortButton onChange={setSortOrder} sortOrder={sortOrder} />
           <ShowAvailableKinds
             availableKinds={availableKinds}
@@ -77,7 +99,11 @@ export default function App() {
             onChange={changeStatus}
             checkStatus={checkStatus}
           />
-          <ShowPlaces selectedPlaces={selectedPlaces} onClick={setPlaceToShow} />
+          <ShowPlaces
+            selectedPlaces={selectedPlaces}
+            setPlaceToShow={setPlaceToShow}
+            launchScroll={launchScroll}
+          />
         </div>
         <div className={styles.place_info}>
           <ShowPlaceInfo
@@ -93,5 +119,4 @@ export default function App() {
       </div>
     </>
   );
-
 }

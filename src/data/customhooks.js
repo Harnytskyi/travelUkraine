@@ -20,7 +20,6 @@ export const useRegionPlaces = () => {
   const [sortOrder, setSortOrder] = useState('');
   const [favoritePlaces, setFavoritePlaces] = useState([]);
   const [showFavPlaces, setShowFavPlaces] = useState(false);
-  useExample(availableKinds, regionPlaces, searchRequest, setSelectedPlaces);
 
   useEffect(() => {
     setIsLoading(true);
@@ -43,18 +42,11 @@ export const useRegionPlaces = () => {
     }
   }, [currentRegion]);
 
-  function useExample(availableKinds, regionPlaces, searchRequest, setSelectedPlaces) {
-    // const [data, updateData] = useState([]); // todo
-
-    useEffect(() => {
-      let kindsCount = Object.keys(availableKinds).length;
-      if (kindsCount != 0 && regionPlaces != undefined)
-        selectPlaces({ searchRequest, availableKinds, regionPlaces, setSelectedPlaces });
-    }, [availableKinds]);
-    // return {
-    //   data,
-    // };
-  }
+  useEffect(() => {
+    let kindsCount = Object.keys(availableKinds).length;
+    if (kindsCount != 0 && regionPlaces != undefined)
+      selectPlaces({ searchRequest, availableKinds, regionPlaces, setSelectedPlaces });
+  }, [availableKinds]);
 
   useEffect(() => {
     if (searchRequest != null) {

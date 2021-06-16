@@ -10,8 +10,7 @@ export function loadRegionPlaces(region) {
   return fetch(url)
     .then(response => response.json())
     .then(data => {
-      const result = data;   // TODO
-      dataStore.regionPlaces = result;
+      dataStore.regionPlaces = data;
       return data;
     });
 }

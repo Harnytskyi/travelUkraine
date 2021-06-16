@@ -17,7 +17,7 @@ export function filterRegionPlaces(data) {
 }
 
 export function selectAvailableKinds(regionPlaces) {
-  let availableKinds = [];
+  let availableKinds = {};
   let kindsArray = [];
 
   for (let item in regionPlaces) {
@@ -25,7 +25,7 @@ export function selectAvailableKinds(regionPlaces) {
     kindsArray = kindsArray.concat(
       kindsOfObject.filter(
         item =>
-          Object.keys(kinds).some(kind => kind === item) && kindsArray.every(kind => kind != item),
+          Object.keys(kinds).some(kind => kind === item) && kindsArray.every(kind => kind !== item),
       ),
     );
   }
@@ -50,7 +50,7 @@ function findPlaces(selectedPlaces, requestFromInput) {
 function filterByKinds(regionPlaces, availableKinds) {
   let selectedKinds = [];
   for (let item in availableKinds) {
-    if (availableKinds[item] == true) selectedKinds.push(item);
+    if (availableKinds[item] === true) selectedKinds.push(item);
   }
   let selectedPlaces = regionPlaces.filter(item =>
     item.kinds.some(value => selectedKinds.some(kind => value === kind)),
@@ -63,21 +63,21 @@ export function changeStatus(value, availableKinds, setAvailableKinds) {
   setAvailableKinds(changedKinds);
 }
 export function checkStatus(value, availableKinds) {
-  if (availableKinds[value] == true) return true;
+  if (availableKinds[value] === true) return true;
 }
 export function checkSortOrder(value, currentSortOrder) {
-  if (value == currentSortOrder) return true;
+  if (value === currentSortOrder) return true;
 }
 export function sortRegionPlaces(regionPlaces, sortOrder) {
-  if (sortOrder == 'rating') return regionPlaces.sort((a, b) => a.rate - b.rate);
-  if (sortOrder == 'alphabet') return regionPlaces.sort((a, b) => a.name.localeCompare(b.name));
+  if (sortOrder === 'rating') return regionPlaces.sort((a, b) => a.rate - b.rate);
+  if (sortOrder === 'alphabet') return regionPlaces.sort((a, b) => a.name.localeCompare(b.name));
 }
 export function changeFavoritePlaces(placeData, favoritePlaces, setFavoritePlaces) {
   let changedFavoritePlaces = [...favoritePlaces];
   let locStorFavPlaces = JSON.parse(localStorage.getItem('favoritePlaces'));
   if (locStorFavPlaces == null) locStorFavPlaces = [];
   const valueIndex = changedFavoritePlaces.indexOf(placeData.xid);
-  if (valueIndex == -1) {
+  if (valueIndex === -1) {
     changedFavoritePlaces.push(placeData.xid);
     let FavoritePlace = {
       xid: placeData.xid,
@@ -96,7 +96,7 @@ export function changeFavoritePlaces(placeData, favoritePlaces, setFavoritePlace
   } else {
     changedFavoritePlaces.splice(valueIndex, 1);
     const locStoreIndex = locStorFavPlaces.indexOf(
-      locStorFavPlaces.find(item => item.xid == placeData.xid),
+      locStorFavPlaces.find(item => item.xid === placeData.xid),
     );
     locStorFavPlaces.splice(locStoreIndex, 1);
   }

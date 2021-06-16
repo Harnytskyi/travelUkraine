@@ -9,7 +9,6 @@ body > div {
 body {
   margin: 0;
   background-color: #f9fafc;
-  /* background: #f2f4f5; */
 }
 a {
   text-decoration: none;
@@ -43,7 +42,6 @@ a {
 }
 .region:hover,
 .city:hover {
-  /* fill: rgb(255 214 67); */
   fill: rgb(255 219 92);
   cursor: pointer;
 }
@@ -53,7 +51,6 @@ a {
 .search_input {
   font-family: 'Roboto', sans-serif;
   width: 78%;
-  /* margin-top: 14px; */
   height: 36px;
   border: solid 1px #d9d9d9;
   border-radius: 3px;
@@ -83,6 +80,7 @@ a {
   color: #384158;
   padding: 8px 6px;
   line-height: 1.5em;
+  cursor: pointer;
 }
 .link {
   -webkit-transition: all 200ms ease;
@@ -142,7 +140,6 @@ h2,
   line-height: 1.75;
   color: #384158;
   margin-top: 29px;
-  /* margin-bottom: 0; */
 }
 .place_info {
   margin: 20px;
@@ -150,16 +147,10 @@ h2,
 .sort_block {
   display: inline-block;
   vertical-align: top;
-  /* margin-top: 14px; */
   margin-left: 3px;
 }
 .radio_sort_container {
   display: inline-block;
-  /* background-color: #181818; */
-  /* -webkit-mask: url('./sort_rating.svg') no-repeat center;
-  mask: url('./sort_alpha.svg'); */
-  /* background-image: url('./sort_alpha.svg');
-  background-color: white;*/
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -176,7 +167,6 @@ h2,
 }
 .radio_sort {
   height: inherit;
-  /* background-color: #181818; */
   background-color: #384158;
   border-radius: 3px;
   -webkit-transition: all 200ms ease;
@@ -225,7 +215,6 @@ h2,
   display: flex;
   justify-content: center;
   align-items: center;
-  /* width: fit-content; */
   padding: 0px 29px;
   width: 185px;
   height: 46px;
@@ -389,6 +378,7 @@ p:last-of-type {
   font-weight: 500;
   color: #384158;
   border: none;
+  cursor: pointer;
   background-color: white;
   -webkit-transition: all 200ms ease;
   -moz-transition: all 200ms ease;
