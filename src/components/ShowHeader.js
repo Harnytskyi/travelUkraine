@@ -16,7 +16,7 @@ export function ShowHeader({ setShowFavPlaces, CONTENT_COORDINATE_Y }) {
     <header className={`${styles.header} ${small ? styles.scrolled : ''}`}>
       <div className={styles.header_content}>
         <div className="logo_container">
-          <a href="/">
+          <a href="/travelUkraine/">
             <div className={styles.logo_text}>
               Подорожуй<span>Україною</span>
             </div>
